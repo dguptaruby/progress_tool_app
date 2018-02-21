@@ -1,0 +1,37 @@
+<div class="app app-header-fixed ">
+  <div class="container w-xxl w-auto-xs">
+    <a href class="navbar-brand block m-t">Progress Tool</a>
+    <div class="m-b-lg">
+      <div class="wrapper text-center">
+        <h4>Change your password</h4>
+      </div>
+  
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'form-validation' }) do |f| %>
+        <div class="text-danger wrapper text-center">
+          <%= devise_error_messages! %>
+        </div>
+        <div class="list-group list-group-sm">
+          <%= f.hidden_field :reset_password_token %>
+
+          <div class="list-group-item">
+            <%= f.password_field :password, autofocus: true, autocomplete: "off", placeholder: 'New password', class: 'form-control no-border' %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+            <% end %>
+          </div>
+
+          <div class="list-group-item">
+            <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: 'Confirm new password', class: 'form-control no-border' %>
+          </div>
+        </div>
+        <div class="actions">
+          <%= f.submit "Change my password", class: "btn btn-lg btn-primary btn-block" %><br />
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+
+
+    </div>
+  </div>
+</div>

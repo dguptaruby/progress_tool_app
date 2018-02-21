@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth'
+  devise_for :users
+  root 'hello_angular#index'
+  get 'hello_angular/index'
   
   resources :milestones
   resources :action_items

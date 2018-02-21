@@ -1,0 +1,45 @@
+<div class="app app-header-fixed ">
+
+  <div class="container w-xxl w-auto-xs">
+    <a href class="navbar-brand block m-t">Progress Tool</a>
+    <div class="m-b-lg">
+      <div class="wrapper text-center">
+        <strong>Sign in to get in touch</strong>
+      </div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-validation'}) do |f| %>
+
+        <div class="text-danger wrapper text-center">
+          <%= devise_error_messages! %>
+        </div>
+
+        <div class="list-group list-group-sm">
+          
+          <div class="list-group-item">
+            <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control no-border" %>
+          </div>
+
+          <div class="list-group-item">
+            <%= f.password_field :password, autocomplete: "off", placeholder: "Email", class: "form-control no-border"  %>
+          </div>
+        </div>
+        <% if devise_mapping.rememberable? -%>
+          <div class="checkbox m-b-md m-t-none">
+            <label class="i-checks">
+              <%= f.check_box :remember_me %><i></i><%= f.label :remember_me %>
+            </label>
+          </div>
+        <% end -%>
+
+        <div class="actions">
+          <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block" %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+      
+    </div>
+    
+  </div>
+
+
+</div>

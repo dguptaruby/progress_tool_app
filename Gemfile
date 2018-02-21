@@ -7,11 +7,14 @@ ruby '2.4.2'
 gem 'rails', '~> 5.2.0.rc1'
 # Use postgres as the database for Active Record
 gem 'pg'
-gem 'devise_token_auth'
+gem 'devise'
 gem 'cancancan'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'webpacker', '~> 3.2'
+gem 'foreman'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -43,6 +46,11 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

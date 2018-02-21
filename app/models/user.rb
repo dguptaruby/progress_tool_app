@@ -1,7 +1,6 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable
-  include DeviseTokenAuth::Concerns::User
+         :recoverable, :rememberable, :trackable, :validatable
 
   TYPES = ['Admin']
 

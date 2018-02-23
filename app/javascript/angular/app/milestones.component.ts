@@ -46,7 +46,6 @@ export class MilestonesComponent implements OnInit {
     this.userService.getCurrentUsers()
     .subscribe(
       response => {
-        .log("current users = ",response);
         this.current_user = response.data;
       },
       error => {

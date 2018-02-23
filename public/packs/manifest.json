@@ -1,8 +1,4 @@
 {
-  "application.js": "/packs/application-a0b5a10b43b4b3dbfa35.js",
-  "application.js.map": "/packs/application-a0b5a10b43b4b3dbfa35.js.map",
-  "hello_angular.js": "/packs/hello_angular-2efdaa413163c067de79.js",
-  "hello_angular.js.map": "/packs/hello_angular-2efdaa413163c067de79.js.map",
-  "hello_typescript.js": "/packs/hello_typescript-cecc37ac94f44eaa942b.js",
-  "hello_typescript.js.map": "/packs/hello_typescript-cecc37ac94f44eaa942b.js.map"
+  "application.js": "/packs/application-c418125a844197a38128.js",
+  "application.js.map": "/packs/application-c418125a844197a38128.js.map"
 }

@@ -25,6 +25,9 @@ default: &default
     - .gif
     - .jpeg
     - .jpg
+    - .elm
+    - .coffee
+    - .html
 
 development:
   <<: *default

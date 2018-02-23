@@ -1,0 +1,56 @@
+<!-- content -->
+  <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+      <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">Action Items
+          <a href="/action_items/new" class="btn btn-info pull-right">Create New Action Item</a>
+        </h1>
+      </div>
+
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">Action Items        
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-striped b-t b-light">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Due at</th>
+                    <th>Submitted at</th>
+                    <th>User</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr *ngFor="let action_item of action_items; let i = index;">
+                    <td>{{action_items.length}}{{$index}}</td>
+                    <td>{{action_item.name}}</td>
+                    <td>{{action_item.description}}</td>
+                    <td>{{action_item.due_at | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{action_item.submitted_at | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{action_item.user_id}}</td>
+                    <td>
+                      <a href="javascript:void(0);" (click)='delete(action_item, i);'> <i class="glyphicon glyphicon-trash"></i></a>
+                      <a style="margin-left: 20px;" href="/action_items/{{action_item.id}}/edit"> <i class="glyphicon glyphicon-edit"></i></a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="action_items.length == 0">
+                    <td colspan="7">No Record Found</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>

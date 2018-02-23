@@ -5,8 +5,8 @@ class CreateActionItems < ActiveRecord::Migration[5.2]
       t.text :description
       t.integer :user_id
       t.integer :admin_id
-      t.datetime :due_at
-      t.datetime :submitted_at
+      t.date :due_at
+      t.date :submitted_at
 
       t.timestamps
     end

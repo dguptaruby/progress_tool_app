@@ -7,6 +7,4 @@ class Milestone < ApplicationRecord
   has_many_attached :attachments
 
   validates_presence_of :name, :description
-
-  # enum status: { initial: 0, processing: 1, accepted: 2, denied: 3, canceled: 4 }
 end

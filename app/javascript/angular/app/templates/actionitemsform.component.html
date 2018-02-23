@@ -1,0 +1,64 @@
+<!-- content -->
+  <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+      <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">Action Items</h1>
+      </div>
+
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">Create New Action Item</div>
+          <div class="panel-body">
+            <div class="alert alert-success" *ngIf="success_message">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{success_message}}
+            </div>
+            <form [formGroup]="actionitemForm" (ngSubmit)="saveData(actionitemForm.value)" class="bs-example form-horizontal">
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Name</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Description</label>
+                <div class="col-lg-10">
+                  <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Due at</label>
+                <div class="col-lg-10">
+                    <input class="form-control" placeholder="mm/dd/yyyy" format="mm/dd/yyyy" name="dp1" formControlName="due_at" ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">Submitted at</label>
+                <div class="col-lg-10">
+                    <input class="form-control" placeholder="mm/dd/yyyy" format="mm/dd/yyyy" name="dp2" formControlName="submitted_at" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">User</label>
+                <div class="col-lg-10">
+                  <select class="form-control m-b" name="user_id" formControlName="user_id">
+                    <option value="null">Select User</option>
+                    <option *ngFor="let user of users" value="{{user.id}}">{{user.full_name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                  <button type="submit" class="btn btn-info" [disabled]="!actionitemForm.valid">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+   

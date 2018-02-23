@@ -1,13 +1,31 @@
 class ActionItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_action_item, only: [:update, :destroy, :show]
+  before_action :set_action_item, only: [:update, :destroy, :show, :edit]
+
+  def index
+    respond_to do |format|
+      format.json { 
+        render json: ActionItem.all, status: :ok
+      }
+      format.html
+    end
+  end
 
   def show
     render json: @action_item, status: :ok
   end
 
+  def new
+    
+  end
+
+  def edit
+    
+  end  
+  
   def create
-    @action_item = Milestone.new(milestone_params)
+    # byebug
+    @action_item = ActionItem.new(action_item_params)
     if @action_item.save
       render json: @action_item, status: :created
     else
@@ -16,7 +34,7 @@ class ActionItemsController < ApplicationController
   end
 
   def update
-    if @action_item.update_attributes(milestone_params)
+    if @action_item.update_attributes(action_item_params)
       render json: @action_item, status: :ok
     else
       render json: @action_item.errors.messages, status: :unprocessable_entity
@@ -30,8 +48,8 @@ class ActionItemsController < ApplicationController
 
   private
 
-  def milestone_params
-    params.require(:action_item).permit(:name, :description, :due_at, :submitted_at, :user_id, :admin_id)
+  def action_item_params
+    params.require(:action_item).permit(:name, :description, :user_id, :admin_id, :due_at, :submitted_at)
   end
 
   def set_action_item

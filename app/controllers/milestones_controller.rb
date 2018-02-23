@@ -6,8 +6,18 @@ class MilestonesController < ApplicationController
     render json: @milestone, status: :ok
   end
 
+  def new
+    @milestone = Milestone.new
+    render json: @milestone
+  end
+
   def index
-    render json: Milestone.all, status: :ok
+    respond_to do |format|
+      format.json { 
+        render json: Milestone.all, status: :ok
+      }
+      format.html
+    end
   end
 
   def create
@@ -35,7 +45,7 @@ class MilestonesController < ApplicationController
   private
 
   def milestone_params
-    params.require(:milestone).permit(:name, :description, :submission_due_at, :submitted_at, :status, :user_id, :admin_id, attachments: [])
+    params.require(:milestone).permit(:name, :description, :submission_due_at, :action_submitted_at, :status_id, :user_id, :admin_id, :action_item_id, attachments: [])
   end
 
   def set_milestone

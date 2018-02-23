@@ -6,9 +6,9 @@ class CreateMilestones < ActiveRecord::Migration[5.2]
       t.integer :admin_id
       t.integer :user_id
       t.integer :action_item_id
-      t.datetime :submission_due_at
-      t.datetime :submitted_at
-      t.string :status
+      t.date :submission_due_at
+      t.date :submitted_at
+      t.integer :status_id
       
       t.timestamps
     end

@@ -27,4 +27,3 @@ environment.loaders.set('html', {
 })
 
 module.exports = environment
-

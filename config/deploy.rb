@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
-server 'ec2-54-174-241-113.compute-1.amazonaws.com', port: 22, roles: [:web, :app, :db], primary: true
+server '54.174.241.113', port: 22, roles: [:web, :app, :db], primary: true
 
 set :application, "progress_tool_app"
 set :repo_url, "https://github.com/dguptaruby/progress_tool_app.git"
@@ -13,17 +13,20 @@ set :puma_workers,    0
 set :pty,             true
 set :use_sudo,        true
 set :stage,           :production
-set :deploy_via,      :remote_cache
+set :rvm_ruby_version, '2.4.2'
+set :deploy_via,      :copy
+set :default_environment, { 'PATH' => "/home/ubuntu/.rvm/bin/rvm" }
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
-set :ssh_options,     { forward_agent: true, user: 'fetch(:user)', auth_methods: %w(publickey), keys: %w(~/.ssh/progress_tool_app_keys.pem) }
+set :ssh_options,     { forward_agent: true, user: fetch(:user), auth_methods: %w(publickey), keys: %w(/home/rails/.ssh/progress_tool_app_keys.pem) }
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord
+set :tmp_dir, "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -41,10 +44,10 @@ set :puma_init_active_record, true  # Change to true if using ActiveRecord
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/secrets.yml", "config/puma.rb"
+append :linked_files, "config/database.yml", "config/puma.rb"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system"
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

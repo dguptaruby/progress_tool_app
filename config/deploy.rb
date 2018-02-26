@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
-server '54.174.241.113', port: 7171, roles: [:web, :app, :db], primary: true
+server 'ec2-54-174-241-113.compute-1.amazonaws.com', port: 22, roles: [:web, :app, :db], primary: true
 
 set :application, "progress_tool_app"
 set :repo_url, "https://github.com/dguptaruby/progress_tool_app.git"
@@ -20,7 +20,7 @@ set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log,  "#{release_path}/log/puma.access.log"
-set :ssh_options,     { forward_agent: true, user: fetch(:user), auth_methods: ["publickey"], keys: %w(~/.ssh/progress_tool_app_keys.pem) }
+set :ssh_options,     { forward_agent: true, user: 'fetch(:user)', auth_methods: %w(publickey), keys: %w(~/.ssh/progress_tool_app_keys.pem) }
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to true if using ActiveRecord

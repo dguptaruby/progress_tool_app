@@ -4,8 +4,8 @@ class ActionItemsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.json { 
-        render json: ActionItem.all, status: :ok
+      format.json {
+        render json: ActionItemSerializer.new(ActionItem.all).serialized_json, status: :ok
       }
       format.html
     end
@@ -16,15 +16,12 @@ class ActionItemsController < ApplicationController
   end
 
   def new
-    
   end
 
   def edit
-    
   end  
   
   def create
-    # byebug
     @action_item = ActionItem.new(action_item_params)
     if @action_item.save
       render json: @action_item, status: :created

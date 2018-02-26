@@ -25,6 +25,7 @@ require 'capistrano/upload-config'
 # or
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
+install_plugin Capistrano::Puma
 
 # Include tasks from other gems included in your Gemfile
 #
@@ -46,5 +47,4 @@ install_plugin Capistrano::SCM::Git
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
  

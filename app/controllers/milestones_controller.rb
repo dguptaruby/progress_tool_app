@@ -1,6 +1,6 @@
 class MilestonesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_milestone, only: [:update, :destroy, :show]
+  before_action :set_milestone, only: [:update, :destroy, :show, :edit]
 
   def show
     render json: @milestone, status: :ok
@@ -8,13 +8,17 @@ class MilestonesController < ApplicationController
 
   def new
     @milestone = Milestone.new
-    render json: @milestone
+    # render json: @milestone
+  end
+
+  def edit
   end
 
   def index
+    @action_item = ActionItem.find(params[:action_item_id])
     respond_to do |format|
       format.json { 
-        render json: Milestone.all, status: :ok
+        render json: @action_item.milestone, status: :ok
       }
       format.html
     end
@@ -45,7 +49,7 @@ class MilestonesController < ApplicationController
   private
 
   def milestone_params
-    params.require(:milestone).permit(:name, :description, :submission_due_at, :action_submitted_at, :status_id, :user_id, :admin_id, :action_item_id, attachments: [])
+    params.require(:milestone).permit(:name, :description, :submission_due_at, :submitted_at, :status_id, :user_id, :admin_id, :action_item_id, attachments: [])
   end
 
   def set_milestone

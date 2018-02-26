@@ -1,0 +1,23 @@
+.custom-table {
+  tbody {
+    tr {
+      td {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.action_links {
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 20px;
+  display: inline-flex;
+  :hover {
+    color: #23b7e5;
+  }
+}

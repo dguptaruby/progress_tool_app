@@ -10,11 +10,11 @@
     <div class="wrapper-md">
       <div class="row">
         <div class="panel panel-default">
-          <div class="panel-heading font-bold">Action Items        
+          <div class="panel-heading font-bold">All Action Items        
           </div>
           <div class="panel-body">
             <div class="table-responsive">
-              <table class="table table-striped b-t b-light">
+              <table class="table table-striped b-t b-light custom-table">
                 <thead>
                   <tr>
                     <th>S.No</th>
@@ -29,15 +29,16 @@
                 <tbody>
                   
                   <tr *ngFor="let action_item of action_items; let i = index;">
-                    <td>{{action_items.length}}{{$index}}</td>
-                    <td>{{action_item.name}}</td>
-                    <td>{{action_item.description}}</td>
-                    <td>{{action_item.due_at | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{action_item.submitted_at | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{action_item.user_id}}</td>
+                    <td>{{i+1}}</td>
+                    <td>{{action_item.attributes.name}}</td>
+                    <td>{{action_item.attributes.description}}</td>
+                    <td>{{action_item.attributes.due_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{action_item.attributes.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{action_item.attributes.user.full_name}}</td>
                     <td>
-                      <a href="javascript:void(0);" (click)='delete(action_item, i);'> <i class="glyphicon glyphicon-trash"></i></a>
-                      <a style="margin-left: 20px;" href="/action_items/{{action_item.id}}/edit"> <i class="glyphicon glyphicon-edit"></i></a>
+                      <a class="btn btn-default" href="/action_items/{{action_item.id}}/milestones">Milestone</a>
+                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(action_item, i);'> <i class="glyphicon glyphicon-trash"></i></a>
+                      <a class="ml-20 action_links" href="/action_items/{{action_item.id}}/edit"> <i class="glyphicon glyphicon-edit"></i></a>
                     </td>
                   </tr>
                   <tr *ngIf="action_items.length == 0">

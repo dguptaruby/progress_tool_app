@@ -36,7 +36,7 @@ constructor(private http:Http) { }
     .catch((err) => { return Observable.throw(err); }); 
   }
 
-  getUserForEdit(id: string) {
+  getUserForEdit(id: number) {
     return this.http.get('/action_items/'+ id +'.json')
     .map((res: Response) => res.json())
     .catch((err) => { return Observable.throw(err); });

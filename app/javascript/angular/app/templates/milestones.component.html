@@ -1,75 +1,59 @@
 <!-- content -->
-  <div id="content" class="app-content" role="main">
-    <div class="app-content-body ">
-      <div class="bg-light lter b-b wrapper-md">
-        <h1 class="m-n font-thin h3">Milestones</h1>
-      </div>
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body ">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">Milestones
+      <a *ngIf="milestones.length == 0" href="/action_items/{{action_item_id}}/milestones/new" class="btn btn-info pull-right">Create New Milestone</a>
+      </h1>
+    </div>
 
     <div class="wrapper-md">
       <div class="row">
         <div class="panel panel-default">
-          <div class="panel-heading font-bold">Create New Milestone</div>
+          <div class="panel-heading font-bold">All Milestones        
+          </div>
           <div class="panel-body">
-            <form [formGroup]="milestoneForm" (ngSubmit)="saveData(milestoneForm.value)" class="bs-example form-horizontal">
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Name</label>
-                <div class="col-lg-10">
-                  <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Description</label>
-                <div class="col-lg-10">
-                  <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Submission due at</label>
-                <div class="col-lg-10">
-                    <input class="form-control" placeholder="mm/dd/yyyy" format="mm/dd/yyyy" name="dp1" formControlName="submission_due_at" ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Submitted at</label>
-                <div class="col-lg-10">
-                    <input class="form-control" placeholder="mm/dd/yyyy" format="mm/dd/yyyy" name="dp2" formControlName="submitted_at" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">User</label>
-                <div class="col-lg-10">
-                  <select class="form-control m-b" name="user_id" formControlName="user_id">
-                    <option value="null">Select User</option>
-                    <option *ngFor="let user of users" value="{{user.id}}">name - {{user.full_name}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Status</label>
-                <div class="col-lg-10">
-                  <select class="form-control m-b" name="status_id" formControlName="status_id">
-                    <option value="null">Select Status</option>
-                    <option *ngFor="let status of status_list" value="{{status.id}}">name - {{status.name}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 control-label">Attachments</label>
-                <div class="col-lg-10">
-                  <input type="file" class="form-control" name="attachments" formControlName="attachments">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
-                  <button type="submit" class="btn btn-info">Save</button>
-                </div>
-              </div>
-            </form>
+            <div class="table-responsive">
+              <table class="table table-striped b-t b-light custom-table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Submission due at</th>
+                    <th>Submitted at</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr *ngFor="let milestone of milestones; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{milestone.name}}</td>
+                    <td>{{milestone.description}}</td>
+                    <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{milestone.user_id}}</td>
+                    <td>{{milestone.status_id}}</td>
+                    <td>
+                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(milestone, i);'> <i class="glyphicon glyphicon-trash"></i></a>
+                      <a class="ml-20 action_links" href="/action_items/{{milestone.action_item_id}}/milestones/{{milestone.id}}/edit"> <i class="glyphicon glyphicon-edit"></i></a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="milestones.length == 0">
+                    <td colspan="7">No Record Found</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    </div>
   </div>
+</div>
    

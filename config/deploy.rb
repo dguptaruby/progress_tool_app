@@ -44,7 +44,7 @@ set :tmp_dir, "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/puma.rb", "config/secrets.yml.key"
+append :linked_files, "config/database.yml", "config/puma.rb", "config/master.key"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system"

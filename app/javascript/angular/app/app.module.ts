@@ -9,9 +9,13 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
 import { MilestonesComponent } from './milestones/milestones.component';
 import { MilestonesFormComponent } from './milestones/milestones-form.component';
+import { MilestonesViewComponent } from './milestones/milestones-view.component';
 import { ActionItemsComponent } from './action_items/actionitems.component';
 import { ActionItemsListComponent } from './action_items/actionitemslist.component';
 import { ActionItemsFormComponent } from './action_items/actionitemsform.component';
+import { UsersListComponent } from './users/users-list.component';
+import { NoteFormComponent } from './notes/notes-form.component';
+
 import { UserService }   from './services/user.service';
 import { StatusService }   from './services/status.service';
 import { MilestonesService }   from './services/milestones.service';
@@ -25,10 +29,18 @@ const routes: Routes = [
     children: [
       { path: '', component: ActionItemsListComponent },  
       { path: 'new', component: ActionItemsFormComponent },
-      { path: ':id/edit', component: ActionItemsFormComponent },
+      { path: ':id/edit', component: ActionItemsFormComponent }
+    ]
+  },
+  {
+    path: 'users',
+    component: ActionItemsComponent,
+    children: [
+      { path: '', component: UsersListComponent },  
       { path: ':id/milestones', component: MilestonesComponent },
       { path: ':id/milestones/new', component: MilestonesFormComponent },
-      { path: ':id/milestones/:milestone_id/edit', component: MilestonesFormComponent }
+      { path: ':id/milestones/:milestone_id/edit', component: MilestonesFormComponent },
+      { path: ':id/milestones/:milestone_id', component: MilestonesViewComponent }
     ]
   }
 ];
@@ -39,9 +51,12 @@ const routes: Routes = [
     DashboardComponent,
     MilestonesComponent,
     MilestonesFormComponent,
+    MilestonesViewComponent,
     ActionItemsComponent,
     ActionItemsFormComponent,
-    ActionItemsListComponent
+    ActionItemsListComponent,
+    UsersListComponent,
+    NoteFormComponent,
   ],
   imports: [
     BrowserModule,

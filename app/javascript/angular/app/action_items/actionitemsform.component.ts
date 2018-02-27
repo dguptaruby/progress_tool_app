@@ -49,7 +49,7 @@ export class ActionItemsFormComponent implements OnInit {
     this.userService.getCurrentUsers()
     .subscribe(
       response => {
-        this.current_user = response.data;
+        this.current_user = JSON.parse(response).data;
       },
       error => {
         this.show_error = error;

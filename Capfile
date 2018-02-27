@@ -14,6 +14,7 @@ require 'capistrano/nginx'
 require 'capistrano/puma'
 require 'capistrano/puma/nginx'
 require 'capistrano/upload-config'
+require 'capistrano/yarn'
 
 # Load the SCM plugin appropriate to your project:
 #

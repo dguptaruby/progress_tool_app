@@ -60,7 +60,6 @@ group :production do
   gem 'capistrano3-puma'
   gem 'capistrano3-nginx'
   gem 'capistrano-upload-config'
-  gem 'capistrano-npm'
   gem 'capistrano-yarn'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

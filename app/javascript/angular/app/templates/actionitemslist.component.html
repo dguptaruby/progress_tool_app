@@ -3,7 +3,6 @@
     <div class="app-content-body ">
       <div class="bg-light lter b-b wrapper-md">
         <h1 class="m-n font-thin h3">Action Items
-          <a href="/action_items/new" class="btn btn-info pull-right">Create New Action Item</a>
         </h1>
       </div>
 
@@ -36,7 +35,6 @@
                     <td>{{action_item.attributes.submitted_at | date: 'MM/dd/yyyy'}}</td>
                     <td>{{action_item.attributes.user.full_name}}</td>
                     <td>
-                      <a class="btn btn-default" href="/action_items/{{action_item.id}}/milestones">Milestone</a>
                       <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(action_item, i);'> <i class="glyphicon glyphicon-trash"></i></a>
                       <a class="ml-20 action_links" href="/action_items/{{action_item.id}}/edit"> <i class="glyphicon glyphicon-edit"></i></a>
                     </td>

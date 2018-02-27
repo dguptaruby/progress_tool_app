@@ -25,6 +25,7 @@ export class MilestonesComponent implements OnInit {
     this.milestonesService.getMilestones(this.user_id)
     .subscribe(
       response => {
+        console.log(JSON.parse(response))
         this.milestones = JSON.parse(response);
       },
       error => {

@@ -3,7 +3,19 @@ class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:update, :destroy, :show, :edit]
 
   def show
-    render json: @milestone, status: :ok
+    user = User.find(params[:user_id])
+    @milestone = user.milestones.find(params[:id])
+    
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "milestones/show.json.jbuilder", milestone: @milestone
+    end.attributes!
+
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
   end
 
   def new
@@ -15,10 +27,16 @@ class MilestonesController < ApplicationController
   end
 
   def index
-    @action_item = ActionItem.find(params[:action_item_id])
+    user = User.find(params[:user_id])
+    @milestones = user.milestones
+    
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "milestones/index.json.jbuilder", milestones: @milestones
+    end.attributes!
+
     respond_to do |format|
-      format.json { 
-        render json: @action_item.milestone, status: :ok
+      format.json {
+        render json: data_hash.to_json
       }
       format.html
     end

@@ -1,0 +1,49 @@
+<!-- content -->
+  <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+      <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">Users</h1>
+      </div>
+
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">All Users        
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-striped b-t b-light custom-table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Registration Date</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr *ngFor="let user of users; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{user.full_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.created_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>
+                      <a class="btn btn-default" href="/users/{{user.id}}/milestones">Milestone</a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="users.length == 0">
+                    <td colspan="7">No Record Found</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>

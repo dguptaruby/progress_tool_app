@@ -1,0 +1,118 @@
+<!-- content -->
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body ">
+    <div class="bg-light lter b-b wrapper-md">
+      <h1 class="m-n font-thin h3">View Milestones Details
+      </h1>
+    </div>
+
+    <div class="wrapper-md" *ngIf="milestone">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="blog-post">                   
+            <div class="panel">
+              <div class="wrapper-lg">
+
+                <h2 class="m-t-none"><a href="javascript:void(0);">{{milestone.name}}</a></h2>
+                <div>
+                  <p>{{milestone.description}}</p>
+                </div>
+                <p><strong>Submission Due At:</strong>&nbsp;&nbsp;&nbsp;{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</p>
+                
+                <p><strong>Submitted At:</strong>&nbsp;&nbsp;&nbsp;
+                {{milestone.submitted_at | date: 'MM/dd/yyyy'}}</p>
+                
+                <p><strong>Action Item:</strong>&nbsp;&nbsp;&nbsp;
+                {{milestone.action_item.name}}</p>
+
+                <p><strong>User:</strong>&nbsp;&nbsp;&nbsp;
+                {{milestone.user.full_name}}</p>
+
+                <p><strong>Status:</strong>&nbsp;&nbsp;&nbsp;
+                {{milestone.status.name}}</p>
+
+                <div class="line line-lg b-b b-light"></div>
+                <div class="text-muted">
+                  <i class="fa fa-user text-muted"></i> by <a href="javascript:void(0);" class="m-r-sm">{{milestone.admin.full_name}}</a>
+                  <i class="fa fa-clock-o text-muted"></i> {{milestone.created_at | date: 'MMM dd, yyyy'}}
+                  <a href="javascript:void(0);" class="m-l-sm"><i class="fa fa-comment-o text-muted"></i> 2 Notes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- <h4 class="m-t-lg m-b">3 Comments</h4> -->
+          <!-- <div>
+            <div>
+              <a class="pull-left thumb-sm">
+              </a>
+              <div class="m-l-xxl m-b">
+                <div>
+                  <a href><strong>John smith</strong></a>
+                  <label class="label bg-info m-l-xs">Editor</label> 
+                  <span class="text-muted text-xs block m-t-xs">
+                    24 minutes ago
+                  </span>
+                </div>
+                <div class="m-t-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Vestibulum.</div>
+              </div>
+            </div>
+
+            <div class="m-l-xxl">
+              <a class="pull-left thumb-sm">
+              </a>
+              <div class="m-l-xxl m-b">
+                <div>
+                  <a href><strong>John smith</strong></a>
+                  <label class="label bg-dark m-l-xs">Admin</label> 
+                  <span class="text-muted text-xs block m-t-xs">
+                    26 minutes ago
+                  </span>
+                </div>
+                <div class="m-t-sm">Lorem ipsum dolor sit amet, consecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</div>
+              </div>
+            </div>
+
+            <div>
+              <a class="pull-left thumb-sm">
+              </a>
+              <div class="m-l-xxl m-b">
+                <div>
+                  <a href><strong>John smith</strong></a>
+                  <label class="label bg-dark m-l-xs">Admin</label> 
+                  <span class="text-muted text-xs block m-t-xs">
+                    26 minutes ago
+                  </span>
+                </div>
+                <blockquote class="m-t">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                  <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
+                </blockquote>
+                <div class="m-t-sm">Lorem ipsum dolor sit amet, consecteter adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</div>
+              </div>
+            </div>
+          </div> -->
+          
+          <note-form></note-form>
+        </div>
+        <div class="col-sm-3">
+          <h5 class="font-bold">Attachments</h5>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let att of milestone.attachments">
+              <a href="{{att.file_url}}" target="_blank">
+                <span class="badge pull-right"><i class="fa fa-download text-muted"></i></span>
+                {{att.name}}
+              </a>
+            </li>
+            <li *ngIf="milestone.attachments.length == 0" class="list-group-item">
+              Attachments not find
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+   

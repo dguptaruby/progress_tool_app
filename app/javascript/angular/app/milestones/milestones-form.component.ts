@@ -4,12 +4,14 @@ import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@ang
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateFRParserFormatter } from "../ngb-date-fr-parser-formatter";
-import { UserService } from '../services/user.service';
-import { StatusService } from '../services/status.service';
-import { MilestonesService } from '../services/milestones.service';
 import { Observable } from 'rxjs/Rx';
 import { Routes, RouterModule, Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
+
+import { UserService } from '../services/user.service';
+import { StatusService } from '../services/status.service';
+import { MilestonesService } from '../services/milestones.service';
+import { ActionItemsService } from '../services/actionitems.service';
 
 @Component({
   selector: 'app-milestones',
@@ -21,17 +23,26 @@ export class MilestonesFormComponent implements OnInit {
   milestoneForm: FormGroup;
   status_list: any = [];
   current_user: any;
-  users: any = [];
+  action_items: any = [];
   show_error: string = null;
   success_message: string = null;
-  action_item_id: string = null;
+  user_id: string = null;
   milestone_id: number = null;
   myFiles:string [] = [];
+  attachments:string [] = [];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private statusService: StatusService, private milestonesService: MilestonesService, private parserFormatter: NgbDateParserFormatter, private activatedRoute: ActivatedRoute, private http: Http) {
-    this.action_item_id = this.activatedRoute.snapshot.paramMap.get('id');
+  constructor(private fb: FormBuilder, 
+    private userService: UserService, 
+    private statusService: StatusService, 
+    private milestonesService: MilestonesService, 
+    private parserFormatter: NgbDateParserFormatter, 
+    private activatedRoute: ActivatedRoute, 
+    private http: Http,
+    private actionitemsService: ActionItemsService,
+    ) {
+
+    this.user_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.milestone_id = Number(this.activatedRoute.snapshot.paramMap.get('milestone_id'));
-    console.log("this.milestone_id = ",this.milestone_id);
   }
 
   ngOnInit() {
@@ -42,19 +53,17 @@ export class MilestonesFormComponent implements OnInit {
       'submission_due_at': [null, Validators.required], 
       'submitted_at': [null, Validators.required], 
       'status_id': [null, Validators.required], 
-      'user_id': [null, Validators.required], 
+      'action_item_id': [null, Validators.required], 
       'admin_id': [null], 
       'attachments': [[]],
-      'action_item_id': this.action_item_id
-      // 'attachments': [this.fb.array([])]
+      'user_id': this.user_id
     });
-    this.getUsers();
+    this.getActionItems();
     this.getStatus();
     this.getCurrentUsers();
     if(this.milestone_id)
       this.getMilestoneById();
   }
-
 
   getFileDetails (e) {
     for (var i = 0; i < e.target.files.length; i++) { 
@@ -67,7 +76,7 @@ export class MilestonesFormComponent implements OnInit {
     this.userService.getCurrentUsers()
     .subscribe(
       response => {
-        this.current_user = response.data;
+        this.current_user = JSON.parse(response).data;
       },
       error => {
         this.show_error = error;
@@ -76,11 +85,11 @@ export class MilestonesFormComponent implements OnInit {
     );
   }
 
-  getUsers() {
-    this.userService.getUsers()
+  getActionItems() {
+    this.actionitemsService.getAllActionItems()
     .subscribe(
       response => {
-        this.users = response.data;
+        this.action_items = response.data;
       },
       error => {
         this.show_error = error;
@@ -109,10 +118,10 @@ export class MilestonesFormComponent implements OnInit {
     formData.append('milestone[description]', data.description);
     formData.append('milestone[submission_due_at]', this.parserFormatter.format(data.submission_due_at));
     formData.append('milestone[submitted_at]', this.parserFormatter.format(data.submitted_at));
-    formData.append('milestone[user_id]', data.user_id);
+    formData.append('milestone[action_item_id]', data.action_item_id);
     formData.append('milestone[status_id]', data.status_id);
     formData.append('milestone[admin_id]', this.current_user.id);
-    formData.append('milestone[action_item_id]', this.action_item_id);
+    formData.append('milestone[user_id]', this.user_id);
 
     let  key = 'milestone[attachments]'
     for (var i = 0; i < this.myFiles.length; i++) { 
@@ -129,9 +138,9 @@ export class MilestonesFormComponent implements OnInit {
     let options = new RequestOptions({ headers: headers });
     let http_call: any = null;
     if(!this.milestone_id) {
-      http_call = this.http.post('/action_items/'+this.action_item_id+'/milestones.json', formData , options);
+      http_call = this.http.post('/users/'+this.user_id+'/milestones.json', formData , options);
     } else {
-      http_call = this.http.put('/action_items/'+this.action_item_id+'/milestones/'+data.id+'.json', formData , options);
+      http_call = this.http.put('/users/'+this.user_id+'/milestones/'+data.id+'.json', formData , options);
 
     }
     
@@ -150,7 +159,7 @@ export class MilestonesFormComponent implements OnInit {
     )
   }
 
-  saveData(data: any) {
+  /*saveData(data: any) {
     data.submission_due_at = this.parserFormatter.format(data.submission_due_at);
     data.submitted_at = this.parserFormatter.format(data.submitted_at);
     data.admin_id = this.current_user.id;
@@ -179,9 +188,9 @@ export class MilestonesFormComponent implements OnInit {
       }
     );
   }
-
+*/
   getMilestoneById() {
-    this.milestonesService.getMilestoneById(this.action_item_id, this.milestone_id)
+    this.milestonesService.getMilestoneById(this.user_id, this.milestone_id)
     .subscribe(
       data => {
         console.log(data)
@@ -196,7 +205,8 @@ export class MilestonesFormComponent implements OnInit {
           'admin_id': data.admin_id,
           'attachments': [[]],
           'action_item_id': data.action_item_id
-        })
+        });
+        this.attachments = data.attachments;
       },
       error => {
         this.show_error = error;

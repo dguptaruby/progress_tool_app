@@ -64,6 +64,7 @@ group :production do
   gem 'capistrano-upload-config'
   gem 'capistrano-yarn'
   gem 'capistrano-foreman'
+  gem 'capistrano-npm'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

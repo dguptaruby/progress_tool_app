@@ -71,6 +71,31 @@ namespace :puma do
   before :start, :make_dirs
 end
 
+namespace :foreman do
+  desc "Export the Procfile to Ubuntu's upstart scripts"
+  task :export, :roles => :app do
+    run "cd /home/#{fetch(:user)}/apps/#{fetch(:application)} && sudo bundle exec foreman export upstart /etc/init -a progress_tool_app -u #{fetch(:user)} -l /home/#{fetch(:user)}/apps/#{fetch(:application)}/log"
+  end
+  
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{fetch(:application)}"
+  end
+
+  desc "Stop the application services"
+  task :stop, :roles => :app do
+    sudo "stop #{fetch(:application)}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "sudo start #{fetch(:application)} || sudo restart #{fetch(:application)}"
+  end
+end
+
+after "deploy:update", "foreman:export"
+after "deploy:update", "foreman:restart"
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do

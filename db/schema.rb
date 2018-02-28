@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2018_02_23_065558) do
     t.text "description"
     t.integer "user_id"
     t.integer "admin_id"
-    t.datetime "due_at"
-    t.datetime "submitted_at"
+    t.date "due_at"
+    t.date "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,9 +53,9 @@ ActiveRecord::Schema.define(version: 2018_02_23_065558) do
     t.integer "admin_id"
     t.integer "user_id"
     t.integer "action_item_id"
-    t.datetime "submission_due_at"
-    t.datetime "submitted_at"
-    t.string "status"
+    t.date "submission_due_at"
+    t.date "submitted_at"
+    t.integer "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

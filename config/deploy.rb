@@ -74,22 +74,22 @@ end
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export, :roles => :app do
-    run "cd /home/#{fetch(:user)}/apps/#{fetch(:application)} && sudo bundle exec foreman export upstart /etc/init -a progress_tool_app -u #{fetch(:user)} -l /home/#{fetch(:user)}/apps/#{fetch(:application)}/log"
+    run "cd /home/ubuntu/apps/progress_tool_app && sudo bundle exec foreman export upstart /etc/init -a progress_tool_app -u ubuntu -l /home/ubuntu/apps/progress_tool_app/log"
   end
   
   desc "Start the application services"
   task :start, :roles => :app do
-    sudo "start #{fetch(:application)}"
+    sudo "start progress_tool_app"
   end
 
   desc "Stop the application services"
   task :stop, :roles => :app do
-    sudo "stop #{fetch(:application)}"
+    sudo "stop progress_tool_app"
   end
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "sudo start #{fetch(:application)} || sudo restart #{fetch(:application)}"
+    run "sudo start progress_tool_app || sudo restart progress_tool_app"
   end
 end
 

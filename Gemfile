@@ -50,6 +50,7 @@ group :development do
 end
 
 group :assets do
+  gem 'therubyracer'
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'

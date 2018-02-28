@@ -47,7 +47,7 @@ set :tmp_dir, "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 append :linked_files, "config/database.yml", "config/puma.rb", "config/master.key"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/packs", "node_modules"
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
@@ -71,48 +71,47 @@ namespace :puma do
   before :start, :make_dirs
 end
 
-namespace :foreman do
-  desc "Export the Procfile to Ubuntu's upstart scripts"
-  task :export do
-    on roles(:app) do
-      within current_path do
-        execute :sudo, :exec, "bundle exec foreman export upstart /etc/init --procfile=./Procfile -a #{fetch(:application)} -u #{fetch(:user)} -l #{current_path}/log"
-      end
-    end
+# namespace :foreman do
+#   desc "Export the Procfile to Ubuntu's upstart scripts"
+#   task :export do
+#     on roles(:app) do
+#       within current_path do
+#         execute :sudo, :exec, "bundle exec foreman export upstart /etc/init --procfile=./Procfile -a #{fetch(:application)} -u #{fetch(:user)} -l #{current_path}/log"
+#       end
+#     end
 
-  end
+#   end
 
-  desc "Start the application services"
-  task :start do
-    on roles(:app) do
-      within current_path do
-        execute :sudo, :exec, "foreman start #{fetch(:application)}"
-      end
-    end
+#   desc "Start the application services"
+#   task :start do
+#     on roles(:app) do
+#       within current_path do
+#         execute :rvm, :exec, "foreman start #{fetch(:application)}"
+#       end
+#     end
+#   end
 
-  end
+#   desc "Stop the application services"
+#   task :stop do
+#     on roles(:app) do
+#       within current_path do
+#         execute :rvm, :exec, "foreman stop #{fetch(:application)}"
+#       end
+#     end
+#   end
 
-  desc "Stop the application services"
-  task :stop do
-    on roles(:app) do
-      within current_path do
-        execute :sudo, :exec, "foreman stop #{fetch(:application)}"
-      end
-    end
-  end
+#   desc "Restart the application services"
+#   task :restart do
+#     on roles(:app) do
+#       within current_path do
+#         execute :rvm, :exec, "foreman start #{fetch(:application)} || foreman restart #{fetch(:application)}"
+#       end
+#     end
+#   end
+# end
 
-  desc "Restart the application services"
-  task :restart do
-    on roles(:app) do
-      within current_path do
-        execute :sudo, :exec, "foreman start #{fetch(:application)} || foreman restart #{fetch(:application)}"
-      end
-    end
-  end
-end
-
-after "deploy:publishing", "foreman:export"
-after "deploy:publishing", "foreman:restart"
+# after "deploy:publishing", "foreman:export"
+# after "deploy:publishing", "foreman:restart"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

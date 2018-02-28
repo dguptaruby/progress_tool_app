@@ -1,5 +1,4 @@
 class InvitationsController < Devise::InvitationsController
-  before_action :configure_permitted_parameters
   respond_to :html, :json
 
   def create

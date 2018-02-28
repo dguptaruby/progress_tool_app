@@ -31,5 +31,8 @@
     "webpack-merge": "^4.1.1",
     "zone.js": "^0.8.20",
     "@angular/cli": "^1.7.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1"
   }
 }

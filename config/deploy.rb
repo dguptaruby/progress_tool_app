@@ -73,28 +73,46 @@ end
 
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
-  task :export, :roles => :app do
-    run "cd /home/ubuntu/apps/progress_tool_app && sudo bundle exec foreman export upstart /etc/init -a progress_tool_app -u ubuntu -l /home/ubuntu/apps/progress_tool_app/log"
+  task :export do
+    on roles(:app) do
+      within current_path do
+        execute :rbenv, :exec, "bundle exec foreman export upstart /etc/init --procfile=./Procfile -a #{fetch(:application)} -u #{fetch(:user)} -l #{current_path}/log"
+      end
+    end
+
   end
-  
+
   desc "Start the application services"
-  task :start, :roles => :app do
-    sudo "start progress_tool_app"
+  task :start do
+    on roles(:app) do
+      within current_path do
+        execute :rbenv, :exec, "foreman start #{fetch(:application)}"
+      end
+    end
+
   end
 
   desc "Stop the application services"
-  task :stop, :roles => :app do
-    sudo "stop progress_tool_app"
+  task :stop do
+    on roles(:app) do
+      within current_path do
+        execute :rbenv, :exec, "foreman stop #{fetch(:application)}"
+      end
+    end
   end
 
   desc "Restart the application services"
-  task :restart, :roles => :app do
-    run "sudo start progress_tool_app || sudo restart progress_tool_app"
+  task :restart do
+    on roles(:app) do
+      within current_path do
+        execute :rbenv, :exec, "foreman start #{fetch(:application)} || foreman restart #{fetch(:application)}"
+      end
+    end
   end
 end
 
-after "deploy:update", "foreman:export"
-after "deploy:update", "foreman:restart"
+after "deploy:publishing", "foreman:export"
+after "deploy:publishing", "foreman:restart"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

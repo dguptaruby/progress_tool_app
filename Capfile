@@ -15,7 +15,7 @@ require 'capistrano/puma'
 require 'capistrano/puma/nginx'
 require 'capistrano/upload-config'
 require 'capistrano/yarn'
-require 'capistrano/foreman'
+require 'capistrano/npm'
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"

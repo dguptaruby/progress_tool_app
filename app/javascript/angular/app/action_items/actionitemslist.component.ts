@@ -34,7 +34,7 @@ export class ActionItemsListComponent implements OnInit {
   }
 
   delete(action_item:any, index:number) {
-    if(confirm("Are you sure want to delete this action item "+action_item.name+" ?")) {
+    if(confirm("Are you sure want to delete this action item "+action_item.attributes.name+" ?")) {
       this.actionitemsService.delete(action_item.id).subscribe(response =>{
         this.action_items.splice(index, 1);
       });

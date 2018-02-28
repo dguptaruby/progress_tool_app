@@ -15,4 +15,12 @@ constructor(private http:Http) { }
       return res["_body"];
     });
   }
+
+  sendInvitation(data: any) {
+    var token = window.document.getElementsByName('csrf-token')[0].getAttribute("content");
+    let headers = new Headers({ 'X-CSRF-Token': token });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post('/users/invitation.json', {'user':data}, options).map((res: Response) => res.json());
+  }
 }

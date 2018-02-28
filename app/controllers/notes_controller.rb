@@ -3,7 +3,34 @@ class NotesController < ApplicationController
   before_action :set_note, only: [:update, :destroy, :show]
 
   def show
-    render json: @note, status: :ok
+    @note = Note.find(params[:id])
+    
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "notes/show.json.jbuilder", note: @note
+    end.attributes!
+
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
+  end
+
+  def index
+    milestone = Milestone.find(params[:milestone_id])
+    @notes = milestone.notes.order("created_at ASC")
+
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "notes/index.json.jbuilder", notes: @notes
+    end.attributes!
+
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
   end
 
   def create

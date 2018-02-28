@@ -3,7 +3,7 @@
   <div class="app-content-body ">
     <div class="bg-light lter b-b wrapper-md">
       <h1 class="m-n font-thin h3">Milestones
-      <a href="/users/{{user_id}}/milestones/new" class="btn btn-info pull-right">Create New Milestone</a>
+      <a href="/users/{{user_id}}/milestones/new" *ngIf="current_user_type == 'Admin'" class="btn btn-info pull-right">Create New Milestone</a>
       </h1>
     </div>
 
@@ -39,8 +39,8 @@
                     <td>{{milestone.status_name}}</td>
                     <td>
                       <a class="ml-20 action_links" href="/users/{{milestone.user}}/milestones/{{milestone.id}}"> <i class="glyphicon glyphicon-eye-open" title="View Milestone Details"></i></a>
-                      <a class="ml-20 action_links" href="/users/{{milestone.user}}/milestones/{{milestone.id}}/edit" title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
-                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(milestone, i);' title="Delete Milestone"> <i class="glyphicon glyphicon-trash"></i></a>
+                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="/users/{{milestone.user}}/milestones/{{milestone.id}}/edit" title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
+                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='delete(milestone, i);' title="Delete Milestone"> <i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                   </tr>
                   <tr *ngIf="milestones.length == 0">

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { invitations: 'invitations' }
   
   root 'dashboard#index'
   get 'dashboard/index'
@@ -9,7 +9,9 @@ Rails.application.routes.draw do
       get :get_current_user
     end
 
-    resources :milestones
+    resources :milestones do 
+      resources :notes
+    end
   end
   
   resources :status, only: :index
@@ -18,5 +20,4 @@ Rails.application.routes.draw do
 
   # get '/action_items/:action_item_id/milestones/:id/view', to: 'milestones#view'
 
-  resources :notes
 end

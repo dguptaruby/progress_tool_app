@@ -4,8 +4,10 @@ import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@ang
 import { Observable } from 'rxjs/Rx';
 import { Routes, RouterModule, Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import * as $ from 'jquery';
 
 import { UserService } from '../services/user.service';
+import { NotesService } from '../services/notes.service';
 
 @Component({
   selector: 'note-form',
@@ -22,11 +24,13 @@ export class NoteFormComponent implements OnInit {
   myFiles:string [] = [];
   attachments:string [] = [];
   current_user_type: string = null;
+  notes: any = [];
 
   constructor(private fb: FormBuilder, 
     private userService: UserService, 
     private activatedRoute: ActivatedRoute, 
     private http: Http,
+    private notesService: NotesService
     ) {
 
     this.user_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -37,16 +41,14 @@ export class NoteFormComponent implements OnInit {
     this.noteForm = this.fb.group({
       'id': [null],
       'content': [null, Validators.required],
-      'current_user_id': [null], 
       'attachments': [[]],
     });
     this.getCurrentUsers();
-    
+    this.getNotes();
   }
 
   getFileDetails (e) {
     for (var i = 0; i < e.target.files.length; i++) { 
-      console.log(e.target.files[i]);
       this.myFiles.push(e.target.files[i]);
     }
   }
@@ -65,6 +67,31 @@ export class NoteFormComponent implements OnInit {
     );
   }
 
+  getNotes() {
+    this.notesService.getNotes(this.user_id, this.milestone_id)
+    .subscribe(
+      response => {
+        this.notes = JSON.parse(response);
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    );
+  }
+
+  updateNote(data) {
+    if(data.attachments.length > 0) {
+      this.attachments = data.attachments;
+    }
+
+    this.noteForm.setValue({
+      'id': data.id,
+      'content': data.content,
+      'attachments': [[]],
+    });
+    $("html, body").animate({ scrollTop: document.body.scrollHeight }, "slow");
+  }
   
   saveDataWithFile(data: any) {
 
@@ -79,7 +106,6 @@ export class NoteFormComponent implements OnInit {
 
     let  key = 'note[attachments]'
     for (var i = 0; i < this.myFiles.length; i++) { 
-      console.log(this.myFiles[i]);
       formData.append(`${key}[]`, this.myFiles[i]);
     }
 
@@ -91,12 +117,12 @@ export class NoteFormComponent implements OnInit {
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
     let http_call: any = null;
-    // if(!this.milestone_id) {
-      http_call = this.http.post('/notes.json', formData , options);
-    /*} else {
-      http_call = this.http.put('/users/'+this.user_id+'/milestones/'+data.id+'.json', formData , options);
+    if(!data.id) {
+      http_call = this.http.post('/users/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes.json', formData , options);
+    } else {
+      http_call = this.http.put('/users/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes/'+data.id+'.json', formData , options);
 
-    }*/
+    }
     
     http_call.map(res => res.json())
     .catch(error => { 
@@ -107,10 +133,10 @@ export class NoteFormComponent implements OnInit {
         data => {
           this.noteForm.reset();
           let formData:FormData = new FormData();
-          this.success_message = "Milestone has been saved."
+          this.getNotes();
+          this.attachments = [];
         },
         error => {
-          console.log(error);
           this.show_error = error;
           return Observable.throw(error);
         }

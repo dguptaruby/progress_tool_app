@@ -62,7 +62,7 @@ export class ActionItemsFormComponent implements OnInit {
     this.userService.getUsers()
     .subscribe(
       response => {
-        this.users = response.data;
+        this.users = response;
       },
       error => {
         this.show_error = error;

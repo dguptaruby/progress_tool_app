@@ -67,7 +67,6 @@ export class MilestonesFormComponent implements OnInit {
 
   getFileDetails (e) {
     for (var i = 0; i < e.target.files.length; i++) { 
-      console.log(e.target.files[i]);
       this.myFiles.push(e.target.files[i]);
     }
   }
@@ -125,7 +124,6 @@ export class MilestonesFormComponent implements OnInit {
 
     let  key = 'milestone[attachments]'
     for (var i = 0; i < this.myFiles.length; i++) { 
-      console.log(this.myFiles[i]);
       formData.append(`${key}[]`, this.myFiles[i]);
     }
 
@@ -155,45 +153,17 @@ export class MilestonesFormComponent implements OnInit {
           let formData:FormData = new FormData();
           this.success_message = "Milestone has been saved."
         },
-        error => console.log(error)
+        error => {
+          this.show_error = error;
+          return Observable.throw(error);
+        }
     )
   }
 
-  /*saveData(data: any) {
-    data.submission_due_at = this.parserFormatter.format(data.submission_due_at);
-    data.submitted_at = this.parserFormatter.format(data.submitted_at);
-    data.admin_id = this.current_user.id;
-
-    let formData = new FormData();  
-    if (this.myFiles.length > 0) { // a file was selected
-      for (let i = 0; i < this.myFiles.length; i++) {
-        console.log(this.myFiles[i]);
-        formData.append('uploadFile', this.myFiles[i]);
-      }
-    }
-
-    data.attachments = formData;
-    this.show_error = null;
-    this.success_message = null;
-    this.milestonesService.saveData(formData, this.action_item_id)
-    .subscribe(
-      data => {
-        if(!this.milestone_id)
-        this.milestoneForm.reset();
-        this.success_message = "Milestone has been saved."
-      },
-      error => {
-        this.show_error = error;
-        return Observable.throw(error);
-      }
-    );
-  }
-*/
   getMilestoneById() {
     this.milestonesService.getMilestoneById(this.user_id, this.milestone_id)
     .subscribe(
       data => {
-        console.log(data)
         this.milestoneForm.setValue({
           'id': data.id,
           'name': data.name,

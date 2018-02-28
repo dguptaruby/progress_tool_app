@@ -28,7 +28,6 @@ export class MilestonesViewComponent implements OnInit {
     this.milestonesService.getMilestoneById(this.user_id, this.milestone_id)
     .subscribe(
       data => {
-        console.log(data)
         this.milestone = data;
       },
       error => {

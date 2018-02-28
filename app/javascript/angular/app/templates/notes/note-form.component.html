@@ -1,8 +1,47 @@
+<h4 class="m-t-lg m-b" *ngIf="notes.length > 0">{{notes.length}} Notes</h4>
+<div *ngIf="notes.length > 0">
+  <div class="m-b-sm panel b-a bg-light lt"  *ngFor="let note of notes">
+    <div class="panel-heading pos-rlt b-light">
+    <!-- <pre>{{ note | json}}</pre> -->
+      <a href="javascript:void(0);" *ngIf="note.admin_id"><strong>{{note.admin_full_name}}</strong></a>
+      <a href="javascript:void(0);" *ngIf="note.user"><strong>{{note.user_full_name}}</strong></a>
+      <label *ngIf="note.admin_id" class="label bg-dark m-l-xs">Admin</label> 
+      <a *ngIf="note.admin_id == current_user.id" class="label bg-primary m-l-xs" (click)="updateNote(note)">Edit Note</a> 
+      <span class="text-muted m-l-sm pull-right">
+        {{note.note_created_at | timeAgo}}
+      </span>
+    </div>
+    <div class="panel-body">
+      <div>{{note.content}}</div>
+
+      <div *ngIf="note.attachments.length > 0">
+        <p class="text-info">Attachments</p>
+        <a *ngFor="let att of note.attachments" href="{{att.url}}" target="_blank" class="btn btn-default m-r-sm m-b-sm">
+        {{att.name}}
+        <i class="fa fa-download text"></i>
+        <i class="fa fa-download text-active text-danger"></i>
+        </a>
+      </div>
+    </div>  
+  </div>
+</div>
+
+
 <h4 class="m-t-lg m-b">Create a note</h4>
 <form [formGroup]="noteForm" (ngSubmit)="saveDataWithFile(noteForm.value)">
   <div class="form-group">
     <label>Note</label>
     <textarea class="form-control" rows="5" placeholder="Type your note"  name="content" formControlName="content"></textarea>
+  </div>
+  <div class="form-group" *ngIf="attachments.length > 0">
+    <label class="col-lg-2 control-label">Attached Files</label>
+    <div class="col-lg-10">
+      <a *ngFor="let att of attachments" href="{{att.url}}" target="_blank" class="btn btn-default m-r-sm m-b-sm">
+      {{att.name}}
+      <i class="fa fa-download text"></i>
+      <i class="fa fa-download text-active text-danger"></i>
+      </a>
+    </div>
   </div>
   <div class="form-group">
     <label>Attachments</label>

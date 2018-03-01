@@ -21,3 +21,29 @@
     color: #23b7e5;
   }
 }
+
+[_nghost-c0] {
+  width: 250px;
+}
+.ngb-dp-month[_ngcontent-c0] {
+  width: 250px;
+}
+.ngb-dp-day[_ngcontent-c3], 
+.ngb-dp-weekday[_ngcontent-c3], 
+.ngb-dp-week-number[_ngcontent-c3] {
+  width: 4rem !important;
+  height: 2.5rem !important;
+}
+
+.ngb-dp-header[_ngcontent-c0] {
+  padding-bottom: 11px;
+}
+
+[_nghost-c4] > select[_ngcontent-c4] {
+  font-size: 15px !important;
+}
+
+[_nghost-c1].bg-primary {
+  color: #f4f3f9 !important;
+  background-color: #5bc0de !important;
+}

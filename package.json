@@ -2,7 +2,6 @@
   "name": "angular_rails_app",
   "private": true,
   "dependencies": {
-    "@angular/cli": "^1.7.1",
     "@angular/common": "^5.2.5",
     "@angular/compiler": "^5.2.5",
     "@angular/core": "^5.2.5",

@@ -13,8 +13,10 @@ set :puma_workers,    0
 set :pty,             true
 set :use_sudo,        true
 set :stage,           :production
+set :npm_target_path, -> { release_path.join('node_modules') }
+set :npm_flags, '--production'
 set :rvm_ruby_version, '2.4.2'
-set :deploy_via,      :copy
+set :deploy_via,      :remote_cache
 set :default_environment, { 'PATH' => "/home/ubuntu/.rvm/bin/rvm" }
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
@@ -71,48 +73,6 @@ namespace :puma do
   before :start, :make_dirs
 end
 
-# namespace :foreman do
-#   desc "Export the Procfile to Ubuntu's upstart scripts"
-#   task :export do
-#     on roles(:app) do
-#       within current_path do
-#         execute :sudo, :exec, "bundle exec foreman export upstart /etc/init --procfile=./Procfile -a #{fetch(:application)} -u #{fetch(:user)} -l #{current_path}/log"
-#       end
-#     end
-
-#   end
-
-#   desc "Start the application services"
-#   task :start do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman start #{fetch(:application)}"
-#       end
-#     end
-#   end
-
-#   desc "Stop the application services"
-#   task :stop do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman stop #{fetch(:application)}"
-#       end
-#     end
-#   end
-
-#   desc "Restart the application services"
-#   task :restart do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman start #{fetch(:application)} || foreman restart #{fetch(:application)}"
-#       end
-#     end
-#   end
-# end
-
-# after "deploy:publishing", "foreman:export"
-# after "deploy:publishing", "foreman:restart"
-
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -141,7 +101,8 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
-  after  :finishing,    :compile_assets
+  after :finishing,     'assets:precompile'
+  # after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end

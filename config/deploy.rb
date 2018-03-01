@@ -101,8 +101,7 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
-  after :finishing,     'assets:precompile'
-  # after  :finishing,    :compile_assets
+  after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end

@@ -12,6 +12,7 @@ set :puma_workers,    0
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        true
+set :scm, :rsync
 set :stage,           :production
 set :rvm_ruby_version, '2.4.2'
 set :deploy_via,      :remote_cache

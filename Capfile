@@ -15,7 +15,7 @@ require 'capistrano/puma'
 require 'capistrano/puma/nginx'
 require 'capistrano/upload-config'
 require 'capistrano/yarn'
-require 'capistrano/npm'
+# require 'capistrano/npm'
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
@@ -48,4 +48,3 @@ install_plugin Capistrano::Puma
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
-Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }

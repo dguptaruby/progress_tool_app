@@ -13,8 +13,6 @@ set :puma_workers,    0
 set :pty,             true
 set :use_sudo,        true
 set :stage,           :production
-set :npm_target_path, -> { release_path.join('node_modules') }
-set :npm_flags, '--production'
 set :rvm_ruby_version, '2.4.2'
 set :deploy_via,      :remote_cache
 set :default_environment, { 'PATH' => "/home/ubuntu/.rvm/bin/rvm" }

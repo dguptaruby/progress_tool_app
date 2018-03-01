@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Admin.create(full_name: "Victor Young", email: "victor@progress_app.com", password: "password123", password_confirmation: "password123")
+
+["Open", "In Progress", "Pending", "On Hold", "Completed", "Closed"].each do |status|
+  Status.find_or_create_by(name: status)
+end

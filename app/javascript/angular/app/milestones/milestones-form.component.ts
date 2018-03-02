@@ -115,8 +115,8 @@ export class MilestonesFormComponent implements OnInit {
     let formData:FormData = new FormData();
     formData.append('milestone[name]', data.name);
     formData.append('milestone[description]', data.description);
-    formData.append('milestone[submission_due_at]', this.parserFormatter.format(data.submission_due_at));
-    formData.append('milestone[submitted_at]', this.parserFormatter.format(data.submitted_at));
+    formData.append('milestone[submission_due_at]', this.userService.formatForServer(data.submission_due_at));
+    formData.append('milestone[submitted_at]', this.userService.formatForServer(data.submitted_at));
     formData.append('milestone[action_item_id]', data.action_item_id);
     formData.append('milestone[status_id]', data.status_id);
     formData.append('milestone[admin_id]', this.current_user.id);
@@ -184,4 +184,6 @@ export class MilestonesFormComponent implements OnInit {
       }
     );
   }
+
+  
 }

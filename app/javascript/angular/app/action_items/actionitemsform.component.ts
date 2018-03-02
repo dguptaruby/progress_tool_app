@@ -72,8 +72,8 @@ export class ActionItemsFormComponent implements OnInit {
   }
 
   saveData(data: any) {
-    data.due_at = this.parserFormatter.format(data.due_at);
-    data.submitted_at = this.parserFormatter.format(data.submitted_at);
+    data.due_at = this.userService.formatForServer(data.due_at);
+    data.submitted_at = this.userService.formatForServer(data.submitted_at);
     data.admin_id = this.current_user.id;
 
     this.show_error = null;

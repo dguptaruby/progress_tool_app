@@ -23,4 +23,14 @@ constructor(private http:Http) { }
 
     return this.http.post('/users/invitation.json', {'user':data}, options).map((res: Response) => res.json());
   }
+
+  formatForServer(date): string {
+    let stringDate: string = ""; 
+    if(date) {
+        stringDate += date.day ? date.day + "/" : "";
+        stringDate += date.month ? date.month + "/" : "";
+        stringDate += date.year;
+    }
+    return stringDate;
+  }
 }

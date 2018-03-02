@@ -8,7 +8,7 @@ gem 'rails', '~> 5.2.0.rc1'
 # Use postgres as the database for Active Record
 gem 'pg'
 gem 'devise'
-# gem 'devise_invitable'
+gem 'devise_invitable'
 gem 'cancancan'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'webpacker', '~> 3.2'
@@ -64,7 +64,6 @@ group :production do
   gem 'capistrano3-nginx'
   gem 'capistrano-upload-config'
   gem 'capistrano-yarn'
-  gem 'capistrano-npm'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

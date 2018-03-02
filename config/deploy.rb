@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
-server '54.174.241.113', port: 22, roles: [:web, :app, :db], primary: true
+server '54.234.34.157', port: 22, roles: [:web, :app, :db], primary: true
 
 set :application, "progress_tool_app"
 set :repo_url, "https://github.com/dguptaruby/progress_tool_app.git"
@@ -14,7 +14,7 @@ set :pty,             true
 set :use_sudo,        true
 set :stage,           :production
 set :rvm_ruby_version, '2.4.2'
-set :deploy_via,      :copy
+set :deploy_via,      :remote_cache
 set :default_environment, { 'PATH' => "/home/ubuntu/.rvm/bin/rvm" }
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
@@ -70,48 +70,6 @@ namespace :puma do
 
   before :start, :make_dirs
 end
-
-# namespace :foreman do
-#   desc "Export the Procfile to Ubuntu's upstart scripts"
-#   task :export do
-#     on roles(:app) do
-#       within current_path do
-#         execute :sudo, :exec, "bundle exec foreman export upstart /etc/init --procfile=./Procfile -a #{fetch(:application)} -u #{fetch(:user)} -l #{current_path}/log"
-#       end
-#     end
-
-#   end
-
-#   desc "Start the application services"
-#   task :start do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman start #{fetch(:application)}"
-#       end
-#     end
-#   end
-
-#   desc "Stop the application services"
-#   task :stop do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman stop #{fetch(:application)}"
-#       end
-#     end
-#   end
-
-#   desc "Restart the application services"
-#   task :restart do
-#     on roles(:app) do
-#       within current_path do
-#         execute :rvm, :exec, "foreman start #{fetch(:application)} || foreman restart #{fetch(:application)}"
-#       end
-#     end
-#   end
-# end
-
-# after "deploy:publishing", "foreman:export"
-# after "deploy:publishing", "foreman:restart"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

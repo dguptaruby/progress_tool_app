@@ -90,6 +90,9 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
+    devise_invitable (1.7.3)
+      actionmailer (>= 4.1.0)
+      devise (>= 4.0.0)
     erubi (1.7.0)
     execjs (2.7.0)
     fast_jsonapi (1.0.17)
@@ -240,6 +243,7 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails
   devise
+  devise_invitable
   fast_jsonapi
   foreman
   jbuilder

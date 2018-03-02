@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
-server '54.174.241.113', port: 22, roles: [:web, :app, :db], primary: true
+server '54.234.34.157', port: 22, roles: [:web, :app, :db], primary: true
 
 set :application, "progress_tool_app"
 set :repo_url, "https://github.com/dguptaruby/progress_tool_app.git"
@@ -12,7 +12,6 @@ set :puma_workers,    0
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        true
-set :scm, :rsync
 set :stage,           :production
 set :rvm_ruby_version, '2.4.2'
 set :deploy_via,      :remote_cache

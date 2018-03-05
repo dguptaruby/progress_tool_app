@@ -21,7 +21,6 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Registration Date</th>
-                    <th class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -31,9 +30,7 @@
                     <td>{{user.full_name}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.created_at | date: 'MM/dd/yyyy'}}</td>
-                    <td>
-                      <a class="btn btn-default" href="/users/{{user.id}}/milestones">Milestone</a>
-                    </td>
+                    
                   </tr>
                   <tr *ngIf="users.length == 0">
                     <td colspan="7">No Record Found</td>

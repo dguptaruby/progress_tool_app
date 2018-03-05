@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :projects do
+  resources :projects do
     resources :milestones do 
       resources :notes
     end

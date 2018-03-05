@@ -1,33 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import templateString from '../templates/milestones.component.html'
+import templateString from '../templates/milestones.component.html';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateFRParserFormatter } from "../ngb-date-fr-parser-formatter";
+import { Routes, RouterModule, Router, ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import { Http, Headers, RequestOptions } from '@angular/http';
+
 import { MilestonesService } from '../services/milestones.service';
 import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs/Rx';
-import { Routes, RouterModule, Router, ActivatedRoute, Params } from '@angular/router';
+import { StatusService } from '../services/status.service';
+import { ListService } from '../services/list.service';
 
 @Component({
   selector: 'app-milestones',
   template: templateString,
+  providers: [{provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
 })
 export class MilestonesComponent implements OnInit {
 
   milestones: any = [];
   show_error: string = null;
-  user_id: string = null;
+  success_message: string = null;
+  project_id: string = null;
   current_user: any;
   current_user_type: string = null;
 
-  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute) {
-    this.user_id = this.activatedRoute.snapshot.paramMap.get('id');
+  milestoneForm: FormGroup;
+  status_list: any = [];
+  myFiles:string [] = [];
+  show_form: boolean = false;
+  attachments:string [] = [];
+  project: any = {};
+
+  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private statusService: StatusService, private parserFormatter: NgbDateParserFormatter, private http: Http, private listService: ListService) {
+    this.project_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
     this.getMilestones();
     this.getCurrentUser();
+    this.getStatus();
+    this.getProject();
+    this.milestoneForm = this.fb.group({
+      'id': [null],
+      'name': [null, Validators.required],
+      'status_id': [null, Validators.required], 
+      'description': [null],
+      'submission_due_at': [null], 
+      'submitted_at': [null], 
+      'attachments': [[]],
+    });
+  }
 
+  getProject() {
+    this.listService.getProject(this.project_id)
+    .subscribe(
+      response => {
+        this.project = response;
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    );
   }
   getMilestones() {
-    this.milestonesService.getMilestones(this.user_id)
+    this.milestonesService.getMilestones(this.project_id)
     .subscribe(
       response => {
         this.milestones = JSON.parse(response);
@@ -53,11 +93,113 @@ export class MilestonesComponent implements OnInit {
     );
   }
 
+  getStatus() {
+    this.statusService.getStatus()
+    .subscribe(
+      response => {
+        this.status_list = response.data;
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    );
+  }
+
+  addNew() {
+    this.show_form = true;
+    this.milestoneForm = this.fb.group({
+      'id': [null],
+      'name': [null, Validators.required],
+      'status_id': [null, Validators.required], 
+      'description': [null],
+      'submission_due_at': [null], 
+      'submitted_at': [null], 
+      'attachments': [[]]
+    });
+  }
+
   delete(milestone:any, index:number) {
     if(confirm("Are you sure want to delete this milestone "+milestone.name+" ?")) {
       this.milestonesService.delete(milestone).subscribe(response =>{
         this.milestones.splice(index, 1);
       });
     }
+  }
+
+  getFileDetails (e) {
+    for (var i = 0; i < e.target.files.length; i++) { 
+      this.myFiles.push(e.target.files[i]);
+    }
+  }
+
+  saveDataWithFile(data: any) {
+
+    let formData:FormData = new FormData();
+    formData.append('milestone[name]', data.name);
+    formData.append('milestone[description]', data.description);
+    formData.append('milestone[submission_due_at]', this.userService.formatForServer(data.submission_due_at));
+    formData.append('milestone[submitted_at]', this.userService.formatForServer(data.submitted_at));
+    formData.append('milestone[status_id]', data.status_id);
+    formData.append('milestone[project_id]', this.project_id);
+
+    let  key = 'milestone[attachments]'
+    for (var i = 0; i < this.myFiles.length; i++) { 
+      formData.append(`${key}[]`, this.myFiles[i]);
+    }
+
+    this.show_error = null;
+    this.success_message = null;
+
+    var token = window.document.getElementsByName('csrf-token')[0].getAttribute("content");
+        let headers = new Headers({ 'X-CSRF-Token': token });
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+    let http_call: any = null;
+    if(!data.id) {
+      http_call = this.http.post('/projects/'+this.project_id+'/milestones.json', formData , options);
+    } else {
+      http_call = this.http.put('/projects/'+this.project_id+'/milestones/'+data.id+'.json', formData , options);
+
+    }
+    
+    http_call.map(res => res.json())
+    .catch(error => { 
+      this.show_error = error;
+      Observable.throw(error)
+    })
+    .subscribe(
+      data => {
+        this.milestoneForm.reset();
+        let formData:FormData = new FormData();
+        this.getMilestones();
+        this.show_form = false;
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    )
+  }
+
+  update(milestone: any) {
+    this.show_form = true;
+    milestone.isEditing = true;
+    this.milestoneForm.setValue({
+      'id': milestone.id,
+      'name': milestone.name,
+      'status_id': milestone.status, 
+      'description': milestone.description,
+      'submission_due_at': this.parserFormatter.parse(milestone.submission_due_at), 
+      'submitted_at': this.parserFormatter.parse(milestone.submitted_at), 
+      'attachments': [[]]
+    });
+    this.attachments = milestone.attachemnts;
+  }
+
+  cancel() {
+    this.show_form = false;
+    this.milestoneForm.reset();
+    let formData:FormData = new FormData();
   }
 }

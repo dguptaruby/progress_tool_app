@@ -19,7 +19,7 @@ export class NoteFormComponent implements OnInit {
   current_user: any;
   show_error: string = null;
   success_message: string = null;
-  user_id: string = null;
+  project_id: string = null;
   milestone_id: string = null;
   myFiles:string [] = [];
   attachments:string [] = [];
@@ -33,7 +33,7 @@ export class NoteFormComponent implements OnInit {
     private notesService: NotesService
     ) {
 
-    this.user_id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.project_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.milestone_id = this.activatedRoute.snapshot.paramMap.get('milestone_id');
   }
 
@@ -68,7 +68,7 @@ export class NoteFormComponent implements OnInit {
   }
 
   getNotes() {
-    this.notesService.getNotes(this.user_id, this.milestone_id)
+    this.notesService.getNotes(this.project_id, this.milestone_id)
     .subscribe(
       response => {
         this.notes = JSON.parse(response);
@@ -118,9 +118,9 @@ export class NoteFormComponent implements OnInit {
     let options = new RequestOptions({ headers: headers });
     let http_call: any = null;
     if(!data.id) {
-      http_call = this.http.post('/users/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes.json', formData , options);
+      http_call = this.http.post('/projects/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes.json', formData , options);
     } else {
-      http_call = this.http.put('/users/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes/'+data.id+'.json', formData , options);
+      http_call = this.http.put('/projects/'+ this.current_user.id +'/milestones/'+ this.milestone_id +'/notes/'+data.id+'.json', formData , options);
 
     }
     

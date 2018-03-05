@@ -65,7 +65,7 @@
               <div class="form-group" *ngIf="attachments.length > 0">
                 <label class="col-lg-2 control-label">Attached Files</label>
                 <div class="col-lg-10">
-                <!-- <pre>{{attachments | json}}</pre> -->
+                <pre>{{attachments | json}}</pre>
                 <ul>
                   <li *ngFor="let att of attachments">
                     <a href="{{att.file_url}}" target="_blank">{{att.name}}</a>

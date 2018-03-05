@@ -1,0 +1,86 @@
+<!-- content -->
+  <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+      <!-- <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">Action Items
+          <a href="/action_items/new" class="btn btn-info pull-right">Create Action Item</a>
+        </h1>
+      </div> -->
+
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">Lists 
+            <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)="adnew()">Add new List</a>       
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive">
+              <table class="table table-striped b-t b-light custom-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th class="pull-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="show_form">
+                    <td colspan="3">
+                      <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+                          </div>
+                          <div class="col-md-5">
+                            <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="submit" class="btn btn-info" [disabled]="!listForm.valid">Save</button>
+                            <button class="btn btn-default" (click)='resetForm()'>Cancel</button>
+                          </div>
+                        </div>
+                      </form>  
+                    </td>
+                  </tr>
+                  <tr *ngFor="let list of lists; let i = index;">
+                    <td *ngIf="!list.isEditing">{{list.attributes.name}}</td>
+                    <td *ngIf="!list.isEditing">{{list.attributes.description}}</td>
+                    <td *ngIf="!list.isEditing" class="pull-right">
+                      <a class="btn btn-default" href="/projects/{{list.id}}/milestones">Milestone</a>
+                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(list, i);'> <i class="glyphicon glyphicon-trash"></i></a>
+                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='update(list)'> <i class="glyphicon glyphicon-edit"></i></a>
+
+                    </td>
+
+                    <td  *ngIf="list.isEditing" colspan="3">
+                      <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+                          </div>
+                          <div class="col-md-5">
+                            <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="submit" class="btn btn-info" [disabled]="!listForm.valid">Save</button>
+                            <button class="btn btn-default" (click)='cancel(list)'>Cancel</button>
+                          </div>
+                        </div>
+                      </form>  
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="lists.length == 0">
+                    <td colspan="3">No Record Found</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>

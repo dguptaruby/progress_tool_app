@@ -15,25 +15,18 @@
 
                 <h2 class="m-t-none"><a href="javascript:void(0);">{{milestone.name}}</a></h2>
                 <div>
-                  <p>{{milestone.description}}</p>
+                  <p>{{milestone.description == 'null' ? '' : milestone.description}}</p>
                 </div>
-                <p><strong>Submission Due At:</strong>&nbsp;&nbsp;&nbsp;{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</p>
+                <p *ngIf="milestone.submission_due_at"><strong>Submission Due At:</strong>&nbsp;&nbsp;&nbsp;{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</p>
                 
-                <p><strong>Submitted At:</strong>&nbsp;&nbsp;&nbsp;
+                <p *ngIf="milestone.submitted_at"><strong>Submitted At:</strong>&nbsp;&nbsp;&nbsp;
                 {{milestone.submitted_at | date: 'MM/dd/yyyy'}}</p>
                 
-                <p><strong>Action Item:</strong>&nbsp;&nbsp;&nbsp;
-                {{milestone.action_item.name}}</p>
-
-                <p><strong>User:</strong>&nbsp;&nbsp;&nbsp;
-                {{milestone.user.full_name}}</p>
-
                 <p><strong>Status:</strong>&nbsp;&nbsp;&nbsp;
                 {{milestone.status.name}}</p>
 
                 <div class="line line-lg b-b b-light"></div>
                 <div class="text-muted">
-                  <i class="fa fa-user text-muted"></i> by <a href="javascript:void(0);" class="m-r-sm">{{milestone.admin.full_name}}</a>
                   <i class="fa fa-clock-o text-muted"></i> {{milestone.created_at | date: 'MMM dd, yyyy'}}
                 </div>
               </div>

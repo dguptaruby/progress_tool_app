@@ -35,8 +35,8 @@
         <ul class="nav navbar-nav hidden-sm">
           <% if current_user.type == 'Admin' %>
             <li class="dropdown pos-stc">
-              <a href="/action_items">
-                <span>Action Items</span> 
+              <a href="/projects">
+                <span>Lists</span> 
               </a>
             </li>
             <li class="dropdown pos-stc">
@@ -45,11 +45,11 @@
               </a>
             </li>
           <% else %>
-            <li class="dropdown pos-stc">
+            <!-- <li class="dropdown pos-stc">
               <a href="/users/<%= current_user.id %>/milestones">
                 <span>Milestones</span> 
               </a>
-            </li>
+            </li> -->
           <% end%>
         </ul>
         <!-- / link and dropdown -->
@@ -91,9 +91,9 @@
             </li>
             <% if current_user.type == 'Admin' %>
               <li>
-                <a href="/action_items" class="auto">      
+                <a href="/projects" class="auto">      
                   <i class="glyphicon glyphicon-align-justify icon text-info-lter"></i>
-                  <span class="font-bold">Action Items</span>
+                  <span class="font-bold">List</span>
                 </a>
               </li>
               <li>
@@ -103,12 +103,12 @@
                 </a>
               </li>
             <% else %>
-              <li>
+              <!-- <li>
                 <a href="users/<%= current_user.id %>/milestones" class="auto">
                   <i class="glyphicon glyphicon-stats icon text-info-lter"></i>      
                   <span class="font-bold">Milestones</span>
                 </a>
-              </li>
+              </li> -->
             <% end %>
           </ul>
         </nav>

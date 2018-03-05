@@ -2,49 +2,101 @@
 <div id="content" class="app-content" role="main">
   <div class="app-content-body ">
     <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Milestones
-      <a href="/users/{{user_id}}/milestones/new" *ngIf="current_user_type == 'Admin'" class="btn btn-info pull-right">Create New Milestone</a>
-      </h1>
+      <h1 class="m-n font-thin h3">{{project.name}}'s Milestones</h1>
     </div>
 
     <div class="wrapper-md">
       <div class="row">
         <div class="panel panel-default">
-          <div class="panel-heading font-bold">All Milestones        
+          <div class="panel-heading font-bold">All Milestones
+            <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)='addNew()'>Add New</a>
           </div>
           <div class="panel-body">
+            <div *ngIf="show_form">
+              <form [formGroup]="milestoneForm" (ngSubmit)="saveDataWithFile(milestoneForm.value)">
+                <div class="row">
+                  <div class="col-md-6">
+                    
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+                    </div>
+                              
+                    <div class="form-group">
+                      <select class="form-control m-b" name="status_id" formControlName="status_id">
+                        <option value="null">Select Status</option>
+                        <option *ngFor="let status of status_list" value="{{status.id}}">{{status.name}}</option>
+                      </select>
+                    </div>
+                              
+                    <div class="form-group">
+                      <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-info" [disabled]="!milestoneForm.valid">Save</button>
+                      
+                      <button class="btn btn-default" (click)='cancel()'>Cancel</button>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input class="form-control" format="mm/dd/yyyy" placeholder="Submitted due at" name="dp1" formControlName="submission_due_at" ngbDatepicker #d1="ngbDatepicker" (focus)="d1.toggle()">
+                    </div>
+                              
+                    <div class="form-group">
+                      <input class="form-control" format="mm/dd/yyyy" placeholder="Submitted at" name="dp2" formControlName="submitted_at" ngbDatepicker #d2="ngbDatepicker" (focus)="d2.toggle()">
+                    </div>
+
+                    <div class="form-group" *ngIf="attachments.length > 0">
+                      <label class="col-lg-2 control-label">Attached Files</label>
+                      <div class="col-lg-10">
+                      <ul>
+                        <li *ngFor="let att of attachments">
+                          <a href="{{att.url}}" target="_blank">{{att.name}}</a>
+                        </li>
+                      </ul>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <input type="file" class="form-control" name="attachments" formControlName="attachments" multiple (change)="getFileDetails($event)">
+                    </div>
+                  </div>
+                </div>  
+              </form>
+            </div>
+
             <div class="table-responsive">
               <table class="table table-striped b-t b-light custom-table">
                 <thead>
                   <tr>
-                    <th>S.No</th>
                     <th>Name</th>
+                    <th>Status</th>
                     <th>Description</th>
                     <th>Submission due at</th>
                     <th>Submitted at</th>
-                    <th>Action Items</th>
-                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  
+
                   <tr *ngFor="let milestone of milestones; let i = index;">
-                    <td>{{i+1}}</td>
                     <td>{{milestone.name}}</td>
-                    <td>{{milestone.description}}</td>
+                    <td>{{milestone.status_name}}</td>
+                    <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
                     <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
                     <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
-                    <td>{{milestone.action_item_name}}</td>
-                    <td>{{milestone.status_name}}</td>
                     <td>
-                      <a class="ml-20 action_links" href="/users/{{milestone.user}}/milestones/{{milestone.id}}"> <i class="glyphicon glyphicon-eye-open" title="View Milestone Details"></i></a>
-                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="/users/{{milestone.user}}/milestones/{{milestone.id}}/edit" title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
+                      <a class="ml-20 action_links" href="/projects/{{milestone.project}}/milestones/{{milestone.id}}"> <i class="glyphicon glyphicon-eye-open" title="View Milestone Details"></i></a>
+
+                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='update(milestone)' title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
+
                       <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='delete(milestone, i);' title="Delete Milestone"> <i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                   </tr>
                   <tr *ngIf="milestones.length == 0">
-                    <td colspan="8">No Record Found</td>
+                    <td colspan="7">No Record Found</td>
                   </tr>
 
                 </tbody>

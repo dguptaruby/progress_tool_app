@@ -20,7 +20,7 @@
 # end
 
 json.extract! @milestone, :id, :name, :description, :submission_due_at, :submitted_at,
-  :user_id, :user, :admin, :status_id, :status, :action_item, :action_item_id, :admin_id, :created_at
+  :status_id, :status, :project, :project_id, :created_at
 
 json.attachments @milestone.attachments do |attachment|
   json.name attachment.filename

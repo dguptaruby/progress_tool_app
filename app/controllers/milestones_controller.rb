@@ -3,7 +3,7 @@ class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:update, :destroy, :show, :edit]
 
   def show
-    user = User.find(params[:user_id])
+    user = Project.find(params[:project_id])
     @milestone = user.milestones.find(params[:id])
     
     data_hash = JbuilderTemplate.new(view_context) do |json|
@@ -26,7 +26,7 @@ class MilestonesController < ApplicationController
   end
 
   def index
-    user = User.find(params[:user_id])
+    user = Project.find(params[:project_id])
     @milestones = user.milestones
     
     data_hash = JbuilderTemplate.new(view_context) do |json|

@@ -1,7 +1,5 @@
 class Milestone < ApplicationRecord
-  belongs_to :user
-  belongs_to :admin
-  belongs_to :action_item
+  belongs_to :project
   belongs_to :status
 
   has_many :notes

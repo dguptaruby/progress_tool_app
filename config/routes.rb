@@ -11,16 +11,13 @@ Rails.application.routes.draw do
     collection do
       get :get_current_user
     end
+  end
 
+  resource :projects do
     resources :milestones do 
       resources :notes
     end
   end
   
   resources :status, only: :index
-
-  resources :action_items
-
-  # get '/action_items/:action_item_id/milestones/:id/view', to: 'milestones#view'
-
 end

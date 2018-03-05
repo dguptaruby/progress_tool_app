@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_23_065558) do
+ActiveRecord::Schema.define(version: 2018_03_05_092940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2018_02_23_065558) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "invitations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_invitations_on_project_id"
+    t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
   create_table "milestones", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -58,6 +67,7 @@ ActiveRecord::Schema.define(version: 2018_02_23_065558) do
     t.integer "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "project_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -67,6 +77,15 @@ ActiveRecord::Schema.define(version: 2018_02_23_065558) do
     t.integer "milestone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "admin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_projects_on_admin_id"
   end
 
   create_table "statuses", force: :cascade do |t|

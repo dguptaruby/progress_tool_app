@@ -20,7 +20,6 @@ class MilestonesController < ApplicationController
 
   def new
     @milestone = Milestone.new
-    # render json: @milestone
   end
 
   def edit
@@ -67,7 +66,7 @@ class MilestonesController < ApplicationController
   private
 
   def milestone_params
-    params.require(:milestone).permit(:name, :description, :submission_due_at, :submitted_at, :status_id, :user_id, :admin_id, :action_item_id, attachments: [])
+    params.require(:milestone).permit(:name, :description, :submission_due_at, :submitted_at, :status_id, :user_id, :admin_id, :action_item_id, :project_id, attachments: [])
   end
 
   def set_milestone

@@ -5,8 +5,8 @@ class User < ApplicationRecord
   TYPES = ['Admin']
 
   has_many :notes, dependent: :destroy
-  has_many :milestones, dependent: :destroy
   has_many :action_items, dependent: :destroy
+  has_many :projects, through: :invitations
 
   scope :clients,-> { where(type: "User") } 
   

@@ -45,11 +45,11 @@
               </a>
             </li>
           <% else %>
-            <!-- <li class="dropdown pos-stc">
-              <a href="/users/<%= current_user.id %>/milestones">
+            <li class="dropdown pos-stc">
+              <a href="projects/<%= current_user.projects[0].id %>/milestones">
                 <span>Milestones</span> 
               </a>
-            </li> -->
+            </li>
           <% end%>
         </ul>
         <!-- / link and dropdown -->
@@ -58,7 +58,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle clear" data-toggle="dropdown">
-              <span class="hidden-sm hidden-md"><%= current_user.full_name %></span> <b class="caret"></b>
+              <span class="hidden-sm hidden-md"><%= current_user.first_name %> <%= current_user.last_name %></span> <b class="caret"></b>
             </a>
             <!-- dropdown -->
             <ul class="dropdown-menu animated fadeInRight w">
@@ -103,12 +103,14 @@
                 </a>
               </li>
             <% else %>
-              <!-- <li>
-                <a href="users/<%= current_user.id %>/milestones" class="auto">
+            <li>
+            </li>
+              <li>
+                <a href="projects/<%= current_user.projects[0].id %>/milestones" class="auto">
                   <i class="glyphicon glyphicon-stats icon text-info-lter"></i>      
                   <span class="font-bold">Milestones</span>
                 </a>
-              </li> -->
+              </li>
             <% end %>
           </ul>
         </nav>

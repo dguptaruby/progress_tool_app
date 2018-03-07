@@ -11,7 +11,11 @@
         </div>
         <div class="list-group list-group-sm">
           <div class="list-group-item">
-            <%= f.text_field :full_name, autofocus: true, placeholder: 'Name', class: 'form-control no-border' %>
+            <%= f.text_field :first_name, autofocus: true, placeholder: 'First Name', class: 'form-control no-border' %>
+          </div>
+
+          <div class="list-group-item">
+            <%= f.text_field :last_name, placeholder: 'Last Name', class: 'form-control no-border' %>
           </div>
 
           <div class="list-group-item">

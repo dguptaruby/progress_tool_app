@@ -1,39 +1,93 @@
 <!-- content -->
   <div id="content" class="app-content" role="main">
     <div class="app-content-body ">
-      <div class="bg-light lter b-b wrapper-md">
+      <!-- <div class="bg-light lter b-b wrapper-md">
         <h1 class="m-n font-thin h3">Users
         <a href="/users/invitation/new" class="btn btn-info pull-right">Invite User</a>
         </h1>
-      </div>
+      </div> -->
 
     <div class="wrapper-md">
       <div class="row">
         <div class="panel panel-default">
-          <div class="panel-heading font-bold">All Users        
+          <div class="panel-heading font-bold">All Users
+            <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)="addNew()">Invite User</a>
+            <div class="clear"></div>
           </div>
           <div class="panel-body">
+            <div class="alert alert-success" *ngIf="success_message">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{success_message}}
+            </div>
+            <div class="alert alert-danger" *ngIf="show_error">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{show_error}}
+            </div>
+
+            <div *ngIf="show_form" class="panel panel-default">
+                <div class="panel-heading font-bold">                  
+                  Invite new user
+                </div>
+                <div class="panel-body">
+                  <form class="form-inline" [formGroup]="inviteForm" (ngSubmit)="inviteUser(inviteForm.value)">
+                    
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="first_name" formControlName="first_name" placeholder="First Name">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="last_name" formControlName="last_name" placeholder="Last Name">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control" name="email" formControlName="email" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                      <select class="form-control" name="project_id" formControlName="project_id">
+                        <option value="null">Select List</option>
+                        <option *ngFor="let list of lists" value="{{list.attributes.id}}">{{list.attributes.name}}</option>
+                      </select>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    
+                    <button type="submit" class="btn btn-info" [disabled]="!inviteForm.valid">Send an invitation</button>
+                    <button class="btn btn-default" (click)="cancel()">Cancel</button>
+
+                  </form>
+                </div>
+              </div>
+            
+          <!-- <div class="row wrapper">
+            <div class="col-sm-6 col-xs-12 col-md-4">
+              <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search">
+            </div>
+          </div> -->
+
             <div class="table-responsive">
-              <table class="table table-striped b-t b-light custom-table">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped b-t b-light custom-table">
                 <thead>
                   <tr>
-                    <th>S.No</th>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Email</th>
+                    <th>List</th>
                     <th>Registration Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   
-                  <tr *ngFor="let user of users; let i = index;">
-                    <td>{{i+1}}</td>
-                    <td>{{user.full_name}}</td>
+                  <tr *ngFor="let user of users">
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
                     <td>{{user.email}}</td>
+                    <td>{{user.project_list}}</td>
                     <td>{{user.created_at | date: 'MM/dd/yyyy'}}</td>
                     
                   </tr>
                   <tr *ngIf="users.length == 0">
-                    <td colspan="7">No Record Found</td>
+                    <td colspan="5">No Record Found</td>
                   </tr>
 
                 </tbody>

@@ -10,6 +10,7 @@ class InvitationsController < Devise::InvitationsController
     respond_to do |format|
       format.json {
         if resource_invited
+          create_invitation(resource, params[:user][:project_id])
           if is_flashing_format? && self.resource.invitation_sent_at
             set_flash_message :notice, :send_instructions, :email => self.resource.email
           end
@@ -19,5 +20,11 @@ class InvitationsController < Devise::InvitationsController
       }
       format.html
     end
+  end
+
+  private
+
+  def create_invitation(resource, project_id)
+    resource.invitations.create(user_id: resource.id, project_id: project_id)
   end
 end

@@ -28,8 +28,10 @@
 # dependencies
 /node_modules
 
-package-lock.json/public/packs
+package-lock.json
+/public/packs/*
 /public/packs-test
 /node_modules
 yarn-debug.log*
 .yarn-integrity
+yarn.lock

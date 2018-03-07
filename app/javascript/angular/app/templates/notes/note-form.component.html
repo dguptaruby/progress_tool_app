@@ -3,8 +3,7 @@
   <div class="m-b-sm panel b-a bg-light lt"  *ngFor="let note of notes">
     <div class="panel-heading pos-rlt b-light">
     <!-- <pre>{{ note | json}}</pre> -->
-      <a href="javascript:void(0);" *ngIf="note.admin_id"><strong>{{note.admin_full_name}}</strong></a>
-      <a href="javascript:void(0);" *ngIf="note.user"><strong>{{note.user_full_name}}</strong></a>
+      <a href="javascript:void(0);"><strong>{{note.first_name}} {{note.last_name}}</strong></a>
       <label *ngIf="note.admin_id" class="label bg-dark m-l-xs">Admin</label> 
       <a *ngIf="note.admin_id == current_user.id" class="label bg-primary m-l-xs" (click)="updateNote(note)">Edit Note</a> 
       <span class="text-muted m-l-sm pull-right">

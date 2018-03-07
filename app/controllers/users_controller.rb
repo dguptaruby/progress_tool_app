@@ -3,13 +3,16 @@ class UsersController < ApplicationController
   
   def index
     @users = User.clients
+    
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "users/index.json.jbuilder", users: @users
+    end.attributes!
+
     respond_to do |format|
       format.json {
-        render json: @users, status: :ok
+        render json: data_hash.to_json
       }
-      format.html {
-        @users
-      }
+      format.html
     end
   end
 

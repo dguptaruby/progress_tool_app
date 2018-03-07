@@ -16,3 +16,4 @@
 //= require_tree .
 //= bootstrap
 //= ui-toggle
+//= jquery.dataTables

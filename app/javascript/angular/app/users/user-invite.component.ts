@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import templateString from '../templates/users/user-invite.component.html'
-import { UserService }   from '../services/user.service';
 import { Observable } from 'rxjs/Rx';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+
+import { UserService }   from '../services/user.service';
+import { ListService } from '../services/list.service';
 
 @Component({
   selector: 'users-list',

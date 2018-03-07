@@ -26,8 +26,8 @@ class MilestonesController < ApplicationController
   end
 
   def index
-    user = Project.find(params[:project_id])
-    @milestones = user.milestones
+    project = Project.find(params[:project_id])
+    @milestones = project.milestones
     
     data_hash = JbuilderTemplate.new(view_context) do |json|
       json.partial! "milestones/index.json.jbuilder", milestones: @milestones

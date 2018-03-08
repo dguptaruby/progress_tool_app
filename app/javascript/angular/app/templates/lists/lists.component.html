@@ -42,7 +42,9 @@
                     <td *ngIf="!list.isEditing">{{list.attributes.name}}</td>
                     <td *ngIf="!list.isEditing">{{list.attributes.description}}</td>
                     <td *ngIf="!list.isEditing" class="pull-right">
-                      <a class="btn btn-default" href="/projects/{{list.id}}/milestones">Milestone</a>
+                     
+                      <a href="/projects/{{list.id}}/milestones" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Milestones</a>
+
                       <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(list, i);'> <i class="glyphicon glyphicon-trash"></i></a>
                       <a class="ml-20 action_links" href="javascript:void(0);" (click)='update(list)'> <i class="glyphicon glyphicon-edit"></i></a>
 

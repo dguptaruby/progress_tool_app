@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import templateString from '../templates/milestones.component.html';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,9 @@ import { NgbDateFRParserFormatter } from "../ngb-date-fr-parser-formatter";
 import { Routes, RouterModule, Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs/Subject';
 
 import { MilestonesService } from '../services/milestones.service';
 import { UserService } from '../services/user.service';
@@ -19,6 +22,11 @@ import { ListService } from '../services/list.service';
   providers: [{provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
 })
 export class MilestonesComponent implements OnInit {
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   milestones: any = [];
   show_error: string = null;
@@ -52,6 +60,11 @@ export class MilestonesComponent implements OnInit {
       'submitted_at': [null], 
       'attachments': [[]],
     });
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      
+    };
   }
 
   getProject() {
@@ -71,6 +84,11 @@ export class MilestonesComponent implements OnInit {
     .subscribe(
       response => {
         this.milestones = JSON.parse(response);
+        if(!this.success_message) {
+          this.dtTrigger.next();
+        } else {
+          this.rerender();
+        }
       },
       error => {
         this.show_error = error;
@@ -123,6 +141,7 @@ export class MilestonesComponent implements OnInit {
     if(confirm("Are you sure want to delete this milestone "+milestone.name+" ?")) {
       this.milestonesService.delete(milestone).subscribe(response =>{
         this.milestones.splice(index, 1);
+        this.rerender();
       });
     }
   }
@@ -172,8 +191,9 @@ export class MilestonesComponent implements OnInit {
       data => {
         this.milestoneForm.reset();
         let formData:FormData = new FormData();
-        this.getMilestones();
         this.show_form = false;
+        this.success_message = "Milestone Created.";
+        this.getMilestones();
       },
       error => {
         this.show_error = error;
@@ -201,5 +221,13 @@ export class MilestonesComponent implements OnInit {
     this.show_form = false;
     this.milestoneForm.reset();
     let formData:FormData = new FormData();
+  }
+
+  rerender(){
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      console.log("rerender called")
+      this.dtTrigger.next();
+    });
   }
 }

@@ -69,7 +69,7 @@
             </div>
 
             <div class="table-responsive">
-              <table class="table table-striped b-t b-light custom-table">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped b-t b-light custom-table">
                 <thead>
                   <tr>
                     <th>Name</th>
@@ -89,7 +89,9 @@
                     <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
                     <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
                     <td>
-                      <a class="ml-20 action_links" href="/projects/{{milestone.project}}/milestones/{{milestone.id}}"> <i class="glyphicon glyphicon-eye-open" title="View Milestone Details"></i></a>
+                      
+
+                    <a href="/projects/{{milestone.project}}/milestones/{{milestone.id}}" class="m-b-none btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Notes</a>
 
                       <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='update(milestone)' title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
 

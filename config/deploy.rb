@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.1"
 
-server '54.172.212.78', port: 22, roles: [:web, :app, :db], primary: true
+server '35.173.230.144', port: 22, roles: [:web, :app, :db], primary: true
 
 set :application, "progress_tool_app"
 set :repo_url, "https://github.com/dguptaruby/progress_tool_app.git"
@@ -47,7 +47,7 @@ set :tmp_dir, "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 append :linked_files, "config/database.yml", "config/puma.rb", "config/master.key"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/packs", "node_modules"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/packs", "node_modules", "client/node_modules"
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

@@ -12,7 +12,7 @@ environment.loaders.append('typescript', typescript)
   loaders: ['html-loader'] 
 })*/
 
-environment.loaders.set('html', {
+environment.loaders.append('html', {
   test: /\.html$/,
   use: [{
     loader: 'html-loader',

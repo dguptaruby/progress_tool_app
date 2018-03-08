@@ -62,8 +62,11 @@ export class UsersListComponent implements OnInit {
             }
           }
         }
-        if(!this.success_message)
+        if(!this.success_message) {
           this.dtTrigger.next();
+        } else {
+          this.rerender();
+        }
       },
       error => {
         this.show_error = error;
@@ -87,7 +90,7 @@ export class UsersListComponent implements OnInit {
         this.inviteForm.reset();
         this.cancel();
         this.getUsers();
-        this.rerender();
+        
       },
       error => {
         this.show_error = error;

@@ -8,10 +8,12 @@ import * as $ from 'jquery';
 
 import { UserService } from '../services/user.service';
 import { NotesService } from '../services/notes.service';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'note-form',
-  template: templateString
+  template: templateString,
+  providers: [ Globals ]
 })
 export class NoteFormComponent implements OnInit {
 
@@ -25,12 +27,14 @@ export class NoteFormComponent implements OnInit {
   attachments:string [] = [];
   current_user_type: string = null;
   notes: any = [];
+  bash_path: string = null;
 
   constructor(private fb: FormBuilder, 
     private userService: UserService, 
     private activatedRoute: ActivatedRoute, 
     private http: Http,
-    private notesService: NotesService
+    private notesService: NotesService,
+    private globals: Globals
     ) {
 
     this.project_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -45,6 +49,8 @@ export class NoteFormComponent implements OnInit {
     });
     this.getCurrentUsers();
     this.getNotes();
+    this.bash_path = this.globals.getbashPath();
+    
   }
 
   getFileDetails (e) {

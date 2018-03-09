@@ -25,6 +25,7 @@ import { ActionItemsService }   from './services/actionitems.service';
 import { NotesService }   from './services/notes.service';
 import { ListService }   from './services/list.service';
 
+import { Globals } from './globals'
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -63,7 +64,7 @@ const routes: Routes = [
     NgbModule.forRoot(),
     DataTablesModule
   ],
-  providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService ],
+  providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService, Globals ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

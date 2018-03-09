@@ -18,6 +18,7 @@ gem 'puma', '~> 3.11'
 gem 'turbolinks'
 gem 'fast_jsonapi'
 gem 'jbuilder'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -64,6 +65,7 @@ group :production do
   gem 'capistrano3-nginx'
   gem 'capistrano-upload-config'
   gem 'capistrano-yarn'
+  gem 'capistrano-dotenv', require: false
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

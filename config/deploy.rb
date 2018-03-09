@@ -47,7 +47,7 @@ set :tmp_dir, "/home/#{fetch(:user)}/apps/#{fetch(:application)}/tmp"
 append :linked_files, "config/database.yml", "config/puma.rb", "config/master.key"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/packs", "node_modules", "client/node_modules", ".env"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/packs", "node_modules", "client/node_modules"
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 

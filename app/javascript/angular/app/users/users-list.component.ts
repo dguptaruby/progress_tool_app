@@ -62,11 +62,8 @@ export class UsersListComponent implements OnInit {
             }
           }
         }
-        if(!this.success_message) {
-          this.dtTrigger.next();
-        } else {
-          this.rerender();
-        }
+        if(this.users.length > 0)
+          this.triggerDt();
       },
       error => {
         this.show_error = error;
@@ -122,4 +119,13 @@ export class UsersListComponent implements OnInit {
   cancel() {
     this.show_form = false;
   }
+
+  triggerDt() {
+    if(this.dtElement.dtInstance) {
+      this.rerender();
+    } else {
+      this.dtTrigger.next();
+    }
+  }
+  
 }

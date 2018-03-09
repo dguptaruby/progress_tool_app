@@ -4,44 +4,50 @@
 
     <div class="wrapper-md">
       <div class="row">
+
         <div class="panel panel-default">
           <div class="panel-heading font-bold">Lists 
             <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)="adnew()">Add new List</a>
             <div class="clear"></div>       
           </div>
           <div class="panel-body">
+            <div *ngIf="show_form" class="m-b-xl">
+              <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
+                <div class="row">
+                  <div class="col-md-5">
+                    <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+                  </div>
+                  <div class="col-md-5">
+                    <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-info" [disabled]="!listForm.valid">Save</button>
+                    <button class="btn btn-default" (click)='resetForm()'>Cancel</button>
+                  </div>
+                </div>
+              </form>  
+            </div>
+            
+            <div class="alert alert-danger" *ngIf="show_error">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{show_error}}
+            </div>
+
             <div class="table-responsive">
-              <table class="table table-striped b-t b-light custom-table">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped b-t b-light custom-table">
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Description</th>
-                    <th class="pull-right">Action</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngIf="show_form">
-                    <td colspan="3">
-                      <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
-                          </div>
-                          <div class="col-md-5">
-                            <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
-                          </div>
-                          <div class="col-md-2">
-                            <button type="submit" class="btn btn-info" [disabled]="!listForm.valid">Save</button>
-                            <button class="btn btn-default" (click)='resetForm()'>Cancel</button>
-                          </div>
-                        </div>
-                      </form>  
-                    </td>
-                  </tr>
+                  
                   <tr *ngFor="let list of lists; let i = index;">
                     <td *ngIf="!list.isEditing">{{list.attributes.name}}</td>
-                    <td *ngIf="!list.isEditing">{{list.attributes.description}}</td>
-                    <td *ngIf="!list.isEditing" class="pull-right">
+                    <td class="text-center" *ngIf="!list.isEditing">{{list.attributes.description}}</td>
+                    <td *ngIf="!list.isEditing" class="text-center">
                      
                       <a href="/projects/{{list.id}}/milestones" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Milestones</a>
 
@@ -53,13 +59,13 @@
                     <td  *ngIf="list.isEditing" colspan="3">
                       <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
                         <div class="row">
-                          <div class="col-md-5">
+                          <div class="col-md-3">
                             <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
                           </div>
                           <div class="col-md-5">
                             <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-4">
                             <button type="submit" class="btn btn-info" [disabled]="!listForm.valid">Save</button>
                             <button class="btn btn-default" (click)='cancel(list)'>Cancel</button>
                           </div>

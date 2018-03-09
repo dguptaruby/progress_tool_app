@@ -13,7 +13,11 @@
             <div class="clear"></div>       
           </div>
           <div class="panel-body">
-            <div *ngIf="show_form">
+            <div class="alert alert-danger" *ngIf="show_error">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{show_error}}
+            </div>
+            <div *ngIf="show_form" class="m-b-sm">
               <form [formGroup]="milestoneForm" (ngSubmit)="saveDataWithFile(milestoneForm.value)">
                 <div class="row">
                   <div class="col-md-6">

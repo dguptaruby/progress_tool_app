@@ -84,11 +84,9 @@ export class MilestonesComponent implements OnInit {
     .subscribe(
       response => {
         this.milestones = JSON.parse(response);
-        if(!this.success_message) {
-          this.dtTrigger.next();
-        } else {
-          this.rerender();
-        }
+        if(this.milestones.length > 0)
+          this.triggerDt();
+        
       },
       error => {
         this.show_error = error;
@@ -138,10 +136,17 @@ export class MilestonesComponent implements OnInit {
   }
 
   delete(milestone:any, index:number) {
+
     if(confirm("Are you sure want to delete this milestone "+milestone.name+" ?")) {
       this.milestonesService.delete(milestone).subscribe(response =>{
+        this.show_form = false;
+        this.milestoneForm.reset();
         this.milestones.splice(index, 1);
-        this.rerender();
+        if(this.milestones.length > 0) {
+          this.triggerDt();
+        } else {
+          this.destroyInstance();
+        }
       });
     }
   }
@@ -223,10 +228,23 @@ export class MilestonesComponent implements OnInit {
     let formData:FormData = new FormData();
   }
 
+  triggerDt() {
+    if(this.dtElement.dtInstance) {
+      this.rerender();
+    } else {
+      this.dtTrigger.next();
+    }
+  }
+
+  destroyInstance() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.clear();
+    });
+  }
+
   rerender(){
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.destroy();
-      console.log("rerender called")
       this.dtTrigger.next();
     });
   }

@@ -4,10 +4,11 @@ import { Injectable, isDevMode } from "@angular/core";
 export class Globals {
   
   getbashPath() {
+    let bash_path;
     if(isDevMode()) {
-      let bash_path = "http://localhost:3000";
+      bash_path = "http://localhost:3000";
     } else {
-      let bash_path = "http://35.173.230.144";
+      bash_path = "http://35.173.230.144";
     }
     return bash_path;
   }

@@ -35,3 +35,4 @@ package-lock.json
 yarn-debug.log*
 .yarn-integrity
 yarn.lock
+.env

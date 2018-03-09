@@ -93,6 +93,10 @@ GEM
     devise_invitable (1.7.3)
       actionmailer (>= 4.1.0)
       devise (>= 4.0.0)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     erubi (1.7.0)
     execjs (2.7.0)
     fast_jsonapi (1.0.17)
@@ -244,6 +248,7 @@ DEPENDENCIES
   coffee-rails
   devise
   devise_invitable
+  dotenv-rails
   fast_jsonapi
   foreman
   jbuilder

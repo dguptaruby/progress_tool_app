@@ -50,7 +50,7 @@ export class NoteFormComponent implements OnInit {
     this.getCurrentUsers();
     this.getNotes();
     this.bash_path = this.globals.getbashPath();
-    
+
   }
 
   getFileDetails (e) {
@@ -141,6 +141,7 @@ export class NoteFormComponent implements OnInit {
           let formData:FormData = new FormData();
           this.getNotes();
           this.attachments = [];
+          this.myFiles = [];
         },
         error => {
           this.show_error = error;
@@ -149,5 +150,10 @@ export class NoteFormComponent implements OnInit {
     )
   }
 
+  cancel() {
+    this.noteForm.reset();
+    let formData:FormData = new FormData();
+    this.attachments = [];
+  }
   
 }

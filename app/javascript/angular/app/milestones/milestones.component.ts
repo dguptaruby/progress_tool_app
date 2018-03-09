@@ -15,11 +15,12 @@ import { MilestonesService } from '../services/milestones.service';
 import { UserService } from '../services/user.service';
 import { StatusService } from '../services/status.service';
 import { ListService } from '../services/list.service';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-milestones',
   template: templateString,
-  providers: [{provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
+  providers: [ Globals, {provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
 })
 export class MilestonesComponent implements OnInit {
   @ViewChild(DataTableDirective)
@@ -41,8 +42,9 @@ export class MilestonesComponent implements OnInit {
   show_form: boolean = false;
   attachments:string [] = [];
   project: any = {};
+  bash_path: string = null;
 
-  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private statusService: StatusService, private parserFormatter: NgbDateParserFormatter, private http: Http, private listService: ListService) {
+  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private statusService: StatusService, private parserFormatter: NgbDateParserFormatter, private http: Http, private listService: ListService, private globals: Globals) {
     this.project_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
@@ -65,6 +67,7 @@ export class MilestonesComponent implements OnInit {
       pageLength: 10,
       
     };
+    this.bash_path = this.globals.getbashPath();
   }
 
   getProject() {

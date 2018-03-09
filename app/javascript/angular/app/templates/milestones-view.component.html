@@ -43,7 +43,7 @@
           <h5 class="font-bold">Attachments</h5>
           <ul class="list-group">
             <li class="list-group-item" *ngFor="let att of milestone.attachments">
-              <a href="{{att.file_url}}" target="_blank">
+              <a href="{{bash_path}}{{att.file_url}}" target="_blank">
                 <span class="badge pull-right"><i class="fa fa-download text-muted"></i></span>
                 {{att.name}}
               </a>

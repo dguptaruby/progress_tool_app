@@ -1,5 +1,4 @@
 const { environment } = require('@rails/webpacker')
-const merge = require('webpack-merge')
 const typescript =  require('./loaders/typescript')
 
 environment.loaders.append('typescript', typescript)

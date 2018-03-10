@@ -73,8 +73,8 @@ Rails.application.configure do
   config.action_mailer.default_options = {from: 'no-reply@progressapp.com'}
   config.action_mailer.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :user_name => 'progresstool',
-    :password => 'cancer1!',
+    :user_name => 'username',
+    :password => 'password',
     :domain => 'progressapp.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,

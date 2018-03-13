@@ -1,7 +1,4 @@
-class ProjectSerializer
-  include FastJsonapi::ObjectSerializer
-  set_type :project  # optional
+class ProjectSerializer < ActiveModel::Serializer
   attributes :id, :name, :description
-  has_many :milestones
+  has_many :users
 end
-

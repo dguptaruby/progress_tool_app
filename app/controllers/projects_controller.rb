@@ -3,9 +3,10 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:update, :destroy, :show, :edit]
 
   def index
+    @projects = Project.all
     respond_to do |format|
       format.json {
-        render json: ProjectSerializer.new(Project.all).serialized_json, status: :ok
+        render json: @projects, status: :ok
       }
       format.html
     end

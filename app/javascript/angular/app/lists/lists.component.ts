@@ -109,8 +109,8 @@ export class ListComponent implements OnInit {
     list.isEditing = true;
     this.listForm.setValue({
       'id': list.id,
-      'name': list.attributes.name,
-      'description': list.attributes.description,
+      'name': list.name,
+      'description': list.description,
       'admin_id': this.current_user.id, 
     });
   }

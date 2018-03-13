@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import templateString from '../templates/lists/lists.component.html';
 import { Observable } from 'rxjs/Rx';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -14,17 +14,15 @@ import { ListService } from '../services/list.service';
   template: templateString,
 })
 export class ListComponent implements OnInit {
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
 
   current_user: any;
   show_error: string;
   lists: any = [];
   show_form: boolean = false;
   listForm: FormGroup;
+  pageProject: number = 1;
+  pageUser: number = 1;
+  pageMilestone: number = 1;
 
   constructor(private userService: UserService, private listService: ListService,private fb: FormBuilder) {
     
@@ -33,17 +31,14 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.getCurrentUsers();
     this.getLists();
+
     this.listForm = this.fb.group({
       'id': [null],
       'name': [null, Validators.required],
       'description': [null],
       'admin_id': [null, Validators.required], 
     });
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      
-    };
+    
   }
   
   getCurrentUsers() {
@@ -63,9 +58,7 @@ export class ListComponent implements OnInit {
     this.listService.getLists()
     .subscribe(
       response => {
-        this.lists = response.data;
-        if(this.lists.length > 0)
-          this.triggerDt();
+        this.lists = response;
       },
       error => {
         this.show_error = error;
@@ -73,6 +66,7 @@ export class ListComponent implements OnInit {
       }
     ); 
   }
+
 
   resetForm() {
     this.show_form = false;
@@ -127,36 +121,11 @@ export class ListComponent implements OnInit {
   }
 
   delete(list:any, index:number) {
-    if(confirm("Are you sure want to delete this "+list.attributes.name+" list?")) {
+    if(confirm("Are you sure want to delete this "+list.name+" list?")) {
       this.listService.delete(list.id).subscribe(response =>{
-        this.lists.splice(index, 1);
-        if(this.lists.length > 0) {
-          this.triggerDt();
-        } else {
-          this.destroyInstance();
-        }
+        this.getLists();        
       });
     }
   }
-
-  triggerDt() {
-    if(this.dtElement.dtInstance) {
-      this.rerender();
-    } else {
-      this.dtTrigger.next();
-    }
-  }
-
-  destroyInstance() {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.clear();
-    });
-  }
-
-  rerender(){
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next();
-    });
-  }
+  
 }

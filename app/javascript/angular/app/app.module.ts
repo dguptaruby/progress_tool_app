@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
@@ -25,7 +27,7 @@ import { ActionItemsService }   from './services/actionitems.service';
 import { NotesService }   from './services/notes.service';
 import { ListService }   from './services/list.service';
 
-import { Globals } from './globals'
+import { Globals } from './globals';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -62,7 +64,9 @@ const routes: Routes = [
     HttpModule,
     RouterModule.forRoot(routes, {useHash: false}),
     NgbModule.forRoot(),
-    DataTablesModule
+    DataTablesModule,
+    NgxPaginationModule,
+    NgPipesModule
   ],
   providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService, Globals ],
   bootstrap: [ AppComponent ]

@@ -50,3 +50,7 @@
 .clear {
   clear: both;
 }
+
+.ngx-pagination a, .ngx-pagination button, .ngx-pagination .current {
+  padding: 5px 10px !important;
+}

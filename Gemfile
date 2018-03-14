@@ -18,7 +18,6 @@ gem 'puma', '~> 3.11'
 gem 'turbolinks'
 gem 'fast_jsonapi'
 gem 'jbuilder'
-gem 'dotenv-rails'
 gem 'active_model_serializers'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

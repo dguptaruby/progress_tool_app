@@ -100,7 +100,7 @@ export class UsersListComponent implements OnInit {
     this.listService.getLists()
     .subscribe(
       response => {
-        this.lists = response.data;
+        this.lists = response;
       },
       error => {
         this.show_error = error;

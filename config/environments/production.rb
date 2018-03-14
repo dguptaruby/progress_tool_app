@@ -66,15 +66,15 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "angular_rails_app_#{Rails.env}"
-
+  config.action_mailer.default_url_options = { host: "35.173.230.144" }
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_options = {from: 'no-reply@progressapp.com'}
   config.action_mailer.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :user_name => 'username',
-    :password => 'password',
+    :user_name => "#{Rails.application.credentials.sendgrid_user}",
+    :password => "#{Rails.application.credentials.sendgrid_pass}",
     :domain => 'progressapp.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,

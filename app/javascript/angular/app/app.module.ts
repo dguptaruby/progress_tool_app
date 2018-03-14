@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgPipesModule } from 'ngx-pipes';
+import { Select2Module } from 'ng2-select2';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
@@ -30,7 +31,7 @@ import { ListService }   from './services/list.service';
 import { Globals } from './globals';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: ListComponent },
   { path: 'projects', component: ListComponent },
   { path: 'projects/:id/milestones', component: MilestonesComponent },
   { path: 'projects/:id/milestones/:milestone_id', component: MilestonesViewComponent },
@@ -66,7 +67,8 @@ const routes: Routes = [
     NgbModule.forRoot(),
     DataTablesModule,
     NgxPaginationModule,
-    NgPipesModule
+    NgPipesModule,
+    Select2Module
   ],
   providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService, Globals ],
   bootstrap: [ AppComponent ]

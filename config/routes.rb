@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     registrations: 'devise/registrations',
     invitations: 'invitations' 
   }
+
+  devise_scope :user do
+    post '/invitation/invite_users_to_list' => 'invitations#invite_users_to_list'
+  end
   
   root 'dashboard#index'
   get 'dashboard/index'

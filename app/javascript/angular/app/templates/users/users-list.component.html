@@ -46,7 +46,7 @@
                     <div class="form-group">
                       <select class="form-control" name="project_id" formControlName="project_id">
                         <option value="null">Select List</option>
-                        <option *ngFor="let list of lists" value="{{list.attributes.id}}">{{list.attributes.name}}</option>
+                        <option *ngFor="let list of lists" value="{{list.id}}">{{list.name}}</option>
                       </select>
                     </div>
                     <div class="clear"></div>

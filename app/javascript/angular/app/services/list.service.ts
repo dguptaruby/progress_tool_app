@@ -45,4 +45,13 @@ export class ListService {
     .map((res: Response) => res.json())
     .catch((err) => { return Observable.throw(err); });
   }
+
+  add_users_to_list(data: any) {
+    let options = this.getOptions();
+
+    return this.http.post('/invitation/invite_users_to_list.json', data, options )
+    .map((res: Response) => res.json())
+    .catch((err) => { return Observable.throw(err); });
+  }
+  
 }

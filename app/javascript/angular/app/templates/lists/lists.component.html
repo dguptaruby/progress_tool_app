@@ -33,6 +33,10 @@
               <a href="#" data-dismiss="alert" class="close">×</a>
               {{show_error}}
             </div>
+            <div class="alert alert-success" *ngIf="invite_user_success_msg">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{invite_user_success_msg}}
+            </div>
             <div class="table-responsive">
             <!-- PROJECTS TABLE -->
               <div class="pull-right m-b">
@@ -45,7 +49,7 @@
                     <th>#</th>
                     <th>Name</th>
                     <th class="text-center">Description</th>
-                    <th class="text-center">Action</th>
+                    <th class="text-center" width="200">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -84,11 +88,23 @@
                         {{list.description}}
                     </td>
                     <td *ngIf="!list.isEditing" class="text-center">
-                     
-                      <a href="/projects/{{list.id}}/milestones" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Milestones</a>
+                      <select class="form-control" [ngModel]="selectedAction" (ngModelChange)="onActionChange($event,list, i, inviteUserModal, inviteNewUserModal)" name="sel2">
+                        <option value="null">Choose Action</option>
+                        <option value="milestones">Milestones</option>
+                        <option value="delete">Delete Milestones</option>
+                        <option value="update">Update Milestones</option>
+                        <option value="invite_user">Invite New User</option>
+                        <option value="add_user"  *ngIf="list.users.length < users.length">Add Existing User to list</option>
+                      </select>
+                      <!-- <a href="/projects/{{list.id}}/milestones" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Milestones</a>
 
                       <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(list, i);'> <i class="glyphicon glyphicon-trash"></i></a>
                       <a class="ml-20 action_links" href="javascript:void(0);" (click)='update(list)'> <i class="glyphicon glyphicon-edit"></i></a>
+                      <a href="javascript:void(0);" *ngIf="list.users.length < users.length" (click)="open_invite_user_modal(list, inviteUserModal);" class="ml-20 text-info invite-user-link">
+                      <i class="glyphicon glyphicon-user"></i> Add existing user to list</a>
+
+                      <a href="javascript:void(0);" (click)="open_invite_new_user_modal(list, inviteNewUserModal);" class="ml-20 text-info invite-user-link">
+                      <i class="glyphicon glyphicon-user"></i> Invite new user</a> -->
 
                     </td>
 
@@ -115,7 +131,7 @@
                     <td colspan="4" class="hiddenRow no-padder">
                       <div class="m-l-md accordian-body collapse" id="project{{i}}">
                         <div class="row" *ngIf="list.users.length == 0">
-                          <div class="col-xs-12 wrapper">No Record Found</div>
+                          <div class="col-xs-12 wrapper">Invite Users</div>
                         </div>
                         <div class="row" *ngIf="list.users.length > 0">
                           <div class="col-sm-6 col-xs-12">
@@ -266,3 +282,71 @@
 
   </div>
 </div>
+<ng-template #inviteUserModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title inline">Add User for {{inviteUserList.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+    <div *ngIf="userData.length == 0">
+      <p>Please invite new user</p>
+    </div>
+    <div *ngIf="userData.length > 0">
+      <select2 [data]="usersForSelect"
+               [options]="options"
+               [width]="500"
+               [value]="value"
+               (valueChanged)="changed($event)"
+      ></select2>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+    <button *ngIf="userData.length > 0" type="button" class="btn btn-primary" [disabled]="addUserToList.user_ids.length == 0" (click)="invite_user()">Add {{addUserToList.user_ids.length > 1 ? 'Users' : 'User'}}</button>
+  </div>
+</ng-template>
+
+<ng-template #inviteNewUserModal let-c="close" let-d="dismiss">
+  <form class="form-inline" [formGroup]="inviteForm" (ngSubmit)="inviteUser(inviteForm.value)">
+  <div class="modal-header">
+    <h4 class="modal-title inline">Invite new user for {{inviteUserList.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <div class="form-group">
+            <input type="text" class="form-control" name="first_name" formControlName="first_name" placeholder="First Name">
+          </div>
+
+          <div class="form-group m-t">
+            <input type="text" class="form-control" name="last_name" formControlName="last_name" placeholder="Last Name">
+          </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            
+          <div class="form-group">
+            <input type="text" class="form-control" name="email" formControlName="email" placeholder="Email">
+          </div>
+
+          <div class="form-group m-t">
+            <select class="form-control" name="project_id" formControlName="project_id">
+              <option value="null">Select List</option>
+              <option *ngFor="let list of lists" value="{{list.id}}">{{list.name}}</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-info" [disabled]="!inviteForm.valid">Send an invitation</button>
+  </div>
+  </form>
+</ng-template>

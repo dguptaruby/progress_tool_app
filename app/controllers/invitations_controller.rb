@@ -1,4 +1,5 @@
 class InvitationsController < Devise::InvitationsController
+  before_action :authenticate_user!
   respond_to :html, :json
 
   def create
@@ -19,6 +20,19 @@ class InvitationsController < Devise::InvitationsController
         end
       }
       format.html
+    end
+  end
+
+  def invite_users_to_list
+    project = Project.find(params[:list_id])
+    params[:user_ids].each do |id|
+      next if project.users.map(&:id).include?(id)
+      project.invitations.create(user_id: id, project_id: project.id)
+    end
+    respond_to do |format|
+      format.json {
+        render json: { notice: "Successffully invited user" }, status: :ok
+      }
     end
   end
 

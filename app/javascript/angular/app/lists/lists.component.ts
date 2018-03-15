@@ -26,6 +26,9 @@ export class ListComponent implements OnInit {
   pageProject: number = 1;
   pageUser: number = 1;
   pageMilestone: number = 1;
+  itemsPerPage: number = 10;
+  selectedAction :string = null;
+
 
   usersForSelect: Array<Select2OptionData>;
   options: Select2Options;
@@ -35,7 +38,6 @@ export class ListComponent implements OnInit {
   modalReference: any;
   invite_user_success_msg: string;
   inviteUserList: any = {};
-  selectedAction: string = null;
 
   inviteForm: FormGroup;
 
@@ -72,11 +74,6 @@ export class ListComponent implements OnInit {
 
   }
 
-  ngAfterContentChecked() {
-    this.selectedAction = null;
-    this.cdr.detectChanges();        
-  }
-  
   getCurrentUsers() {
     this.userService.getCurrentUsers()
     .subscribe(
@@ -267,9 +264,7 @@ export class ListComponent implements OnInit {
   }
 
   onActionChange(newValue, list, i, inviteUserModal, inviteNewUserModal) {
-    console.log(newValue);
-    console.log(list);
-    console.log(i);
+
     switch(newValue) {
       case "milestones":
         window.location.href = "/projects/"+list.id+"/milestones";
@@ -277,10 +272,6 @@ export class ListComponent implements OnInit {
 
       case "delete":
         this.delete(list, i);
-      break;
-
-      case "update":
-        this.update(list);
       break;
 
       case "update":
@@ -295,8 +286,6 @@ export class ListComponent implements OnInit {
         this.open_invite_user_modal(list, inviteUserModal);
       break; 
     }
-
-    console.log(this.selectedAction)
 
   }
 

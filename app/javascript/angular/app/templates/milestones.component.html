@@ -9,7 +9,7 @@
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading font-bold">All Milestones
-            <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)='addNew()'>Add New</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-info pull-right" (click)='addNew()'><i class="fa fa-plus"></i> Add Milestone</a>
             <div class="clear"></div>       
           </div>
           <div class="panel-body">
@@ -23,10 +23,12 @@
                   <div class="col-md-6">
                     
                     <div class="form-group">
+                      <label>Name</label>
                       <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
                     </div>
                               
-                    <div class="form-group">
+                    <div *ngIf="milestoneForm.value.id" class="form-group">
+                      <label>Status</label>
                       <select class="form-control m-b" name="status_id" formControlName="status_id">
                         <option value="null">Select Status</option>
                         <option *ngFor="let status of status_list" value="{{status.id}}">{{status.name}}</option>
@@ -34,6 +36,7 @@
                     </div>
                               
                     <div class="form-group">
+                      <label>Description</label>
                       <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
                     </div>
 
@@ -42,13 +45,10 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <input class="form-control" format="mm/dd/yyyy" placeholder="Submitted due at" name="dp1" formControlName="submission_due_at" ngbDatepicker #d1="ngbDatepicker" (focus)="d1.toggle()">
+                      <label>Due date</label>
+                      <input class="form-control submission_due_at" format="mm/dd/yyyy" placeholder="Due date" name="dp1" formControlName="submission_due_at" ngbDatepicker #d1="ngbDatepicker" (focus)="d1.toggle(); openDatepicker(d1)">
                     </div>
                               
-                    <div class="form-group">
-                      <input class="form-control" format="mm/dd/yyyy" placeholder="Submitted at" name="dp2" formControlName="submitted_at" ngbDatepicker #d2="ngbDatepicker" (focus)="d2.toggle()">
-                    </div>
-
                     <div class="form-group" *ngIf="attachments.length > 0">
                       <label class="col-lg-2 control-label">Attached Files</label>
                       <div class="col-lg-10">
@@ -61,6 +61,7 @@
                     </div>
 
                     <div class="form-group">
+                      <label>Attachment</label>
                       <input type="file" class="form-control" name="attachments" formControlName="attachments" multiple (change)="getFileDetails($event)">
                     </div>
                     <div class="form-group">
@@ -80,31 +81,39 @@
                     <th>Name</th>
                     <th>Status</th>
                     <th>Description</th>
-                    <th>Submission due at</th>
-                    <th>Submitted at</th>
+                    <th>Due date</th>
+                    <th>Updated at</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
                   <tr *ngFor="let milestone of milestones; let i = index;">
-                    <td>{{milestone.name}}</td>
-                    <td>{{milestone.status_name}}</td>
+                    <td>
+                    {{milestone.name}}</td>
+                    <td (click)="show_status_options(milestone)" *ngIf="!milestone.show_dropdown">{{milestone.status_name}}</td>
+
+                    <td *ngIf="milestone.show_dropdown">
+                      <form [formGroup]="milestoneForm">
+                        <select class="form-control m-b" (change)="saveDataWithFile(milestoneForm.value)" name="status_id" formControlName="status_id">
+                          <option *ngFor="let status of status_list" value="{{status.id}}">{{status.name}}</option>
+                        </select>
+                      </form>
+                    </td>
                     <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
                     <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
-                    <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{milestone.updated_at | date: 'MMM d, y, h:mm a'}}</td>
                     <td>
-                      
-
-                    <a href="/projects/{{milestone.project}}/milestones/{{milestone.id}}" class="m-b-none btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Notes</a>
-
-                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='update(milestone)' title="Update Milestone"> <i class="glyphicon glyphicon-edit"></i></a>
-
-                      <a class="ml-20 action_links" *ngIf="current_user_type == 'Admin'" href="javascript:void(0);" (click)='delete(milestone, i);' title="Delete Milestone"> <i class="glyphicon glyphicon-trash"></i></a>
+                      <select class="form-control" [ngModel]="milestoneAction" (ngModelChange)="onMilestoneActionChange($event,milestone, i)" name="milestoneAction">
+                        <option value="null">Select Action</option>
+                        <option value="notes">Notes</option>
+                        <option *ngIf="current_user_type == 'Admin'" value="update">Update milestone</option>
+                        <option *ngIf="current_user_type == 'Admin'" value="delete">Delete milestone</option>
+                      </select>
                     </td>
                   </tr>
                   <tr *ngIf="milestones.length == 0">
-                    <td colspan="7">No Record Found</td>
+                    <td colspan="7">Create new milestone</td>
                   </tr>
 
                 </tbody>

@@ -16,9 +16,11 @@
               <form [formGroup]="listForm" (ngSubmit)="save(listForm.value)">
                 <div class="row">
                   <div class="col-md-5">
+                    <label>Name</label>
                     <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
                   </div>
                   <div class="col-md-5">
+                    <label>Description</label>
                     <textarea class="form-control" placeholder="Description" name="description" formControlName="description"></textarea>
                   </div>
                   <div class="col-md-2">
@@ -54,7 +56,7 @@
                 </thead>
                 <tbody>
 
-                  <ng-template ngFor let-list [ngForOf]="lists | filterBy: ['name','description']: searchInProjects | paginate: { id: 'projectPagination', itemsPerPage: 10, currentPage: pageProject } " let-i="index">
+                  <ng-template ngFor let-list [ngForOf]="lists | filterBy: ['name','description']: searchInProjects | paginate: { id: 'projectPagination', itemsPerPage: itemsPerPage, currentPage: pageProject } " let-i="index">
                   <tr>
                     <td>
                       <a 
@@ -91,21 +93,11 @@
                       <select class="form-control" [ngModel]="selectedAction" (ngModelChange)="onActionChange($event,list, i, inviteUserModal, inviteNewUserModal)" name="sel2">
                         <option value="null">Choose Action</option>
                         <option value="milestones">Milestones</option>
-                        <option value="delete">Delete Milestones</option>
-                        <option value="update">Update Milestones</option>
+                        <option value="delete">Delete List</option>
+                        <option value="update">Update List</option>
                         <option value="invite_user">Invite New User</option>
                         <option value="add_user"  *ngIf="list.users.length < users.length">Add Existing User to list</option>
                       </select>
-                      <!-- <a href="/projects/{{list.id}}/milestones" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Milestones</a>
-
-                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='delete(list, i);'> <i class="glyphicon glyphicon-trash"></i></a>
-                      <a class="ml-20 action_links" href="javascript:void(0);" (click)='update(list)'> <i class="glyphicon glyphicon-edit"></i></a>
-                      <a href="javascript:void(0);" *ngIf="list.users.length < users.length" (click)="open_invite_user_modal(list, inviteUserModal);" class="ml-20 text-info invite-user-link">
-                      <i class="glyphicon glyphicon-user"></i> Add existing user to list</a>
-
-                      <a href="javascript:void(0);" (click)="open_invite_new_user_modal(list, inviteNewUserModal);" class="ml-20 text-info invite-user-link">
-                      <i class="glyphicon glyphicon-user"></i> Invite new user</a> -->
-
                     </td>
 
                     <td  *ngIf="list.isEditing" colspan="3">
@@ -130,10 +122,10 @@
                   <tr>
                     <td colspan="4" class="hiddenRow no-padder">
                       <div class="m-l-md accordian-body collapse" id="project{{i}}">
-                        <div class="row" *ngIf="list.users.length == 0">
+                        <div class="row m-n" *ngIf="list.users.length == 0">
                           <div class="col-xs-12 wrapper">Invite Users</div>
                         </div>
-                        <div class="row" *ngIf="list.users.length > 0">
+                        <div class="row m-n" *ngIf="list.users.length > 0">
                           <div class="col-sm-6 col-xs-12">
                             <h4 class="font-thin">User</h4>
                           </div>
@@ -155,7 +147,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <ng-template ngFor let-user [ngForOf]="list.users | filterBy: ['first_name','last_name','email','created_at']: searchInUsers | paginate: { id: 'userPagination', itemsPerPage: 10, currentPage: pageUser }" let-j="index">
+                            <ng-template ngFor let-user [ngForOf]="list.users | filterBy: ['first_name','last_name','email','created_at']: searchInUsers | paginate: { id: 'userPagination', itemsPerPage: itemsPerPage, currentPage: pageUser }" let-j="index">
                               <tr>
                                 <td>
                                   <a 
@@ -201,13 +193,13 @@
                               <tr>
                                 <td colspan="5" class="hiddenRow no-padder">
                                   <div class="m-t m-l-md accordian-body collapse" id="user{{j}}{{i}}">
-                                    <div class="row" *ngIf="user.milestone.length == 0">
+                                    <div class="row m-n" *ngIf="user.milestone.length == 0">
                                       <div class="col-xs-12">
-                                        No Record Found
+                                        Add Milestone
                                       </div>
                                     </div>
                                     <div class="b" *ngIf="user.milestone.length > 0">
-                                      <div class="row" *ngIf="user.milestone.length > 0">
+                                      <div class="row m-n" *ngIf="user.milestone.length > 0">
                                         <div class="col-sm-6 col-xs-12">
                                           <h4 class="font-thin padder">Milestones</h4>
                                         </div>
@@ -230,7 +222,7 @@
                                         </thead>
                                         <tbody>
 
-                                          <tr *ngFor="let milestone of user.milestone | filterBy: ['name','status_name','description','submission_due_at','submitted_at']: searchInMilestones | paginate: { id: 'milestonePagination', itemsPerPage: 1, currentPage: pageMilestone }; let i = index;">
+                                          <tr *ngFor="let milestone of user.milestone | filterBy: ['name','status_name','description','submission_due_at','submitted_at']: searchInMilestones | paginate: { id: 'milestonePagination', itemsPerPage: itemsPerPage, currentPage: pageMilestone }; let i = index;">
                                             <td>{{milestone.name}}</td>
                                             <td>{{milestone.status_name}}</td>
                                             <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
@@ -239,14 +231,14 @@
                                             <td>
                                               
 
-                                            <a href="/projects/{{list.id}}/milestones/{{milestone.id}}" class="m-b-none btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-plus"></i>Notes</a>
+                                            <a href="/projects/{{list.id}}/milestones/{{milestone.id}}" class="m-b-none btn m-b-xs btn-sm btn-primary btn-addon">Notes</a>
 
                                             </td>
                                           </tr>
                                         </tbody>
                                       </table>
                                       
-                                      <pagination-controls *ngIf="user.milestone.length > 0" class="pull-right" id="milestonePagination" (pageChange)="pageMilestone = $event"></pagination-controls>
+                                      <pagination-controls *ngIf="user.milestone.length > itemsPerPage" class="pull-right" id="milestonePagination" (pageChange)="pageMilestone = $event"></pagination-controls>
                                       <div class="clearfix"></div>
                                     </div>
                                     
@@ -257,8 +249,8 @@
                                               
                           </tbody>
                         </table>
-                  
-                        <pagination-controls *ngIf="list.users.length > 0" id="userPagination" (pageChange)="pageUser = $event"></pagination-controls>
+
+                        <pagination-controls *ngIf="list.users.length > itemsPerPage" id="userPagination" (pageChange)="pageUser = $event"></pagination-controls>
                       
                       </div> 
                     </td>
@@ -272,7 +264,7 @@
                 </tbody>
               </table>
 
-              <pagination-controls id="projectPagination" (pageChange)="pageProject = $event"></pagination-controls>
+              <pagination-controls *ngIf="lists.length > itemsPerPage" id="projectPagination" (pageChange)="pageProject = $event"></pagination-controls>
             
             </div>
           </div>

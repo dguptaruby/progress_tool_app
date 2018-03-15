@@ -14,6 +14,6 @@ class Milestone < ApplicationRecord
       description: description,
       submission_due_at: submission_due_at,
       submitted_at: submitted_at
-    }    
+    }
   end
 end

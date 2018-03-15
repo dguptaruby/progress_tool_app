@@ -46,8 +46,8 @@
             </li>
           <% else %>
             <li class="dropdown pos-stc">
-              <a href="projects/<%= current_user.projects[0].id %>/milestones">
-                <span>Milestones</span> 
+              <a href="/">
+                <span>Lists</span> 
               </a>
             </li>
           <% end%>
@@ -92,7 +92,7 @@
             <% if current_user.type == 'Admin' %>
               <li>
                 <a href="/projects" class="auto">      
-                  <i class="glyphicon glyphicon-align-justify icon text-info-lter"></i>
+                  <i class="glyphicon glyphicon-th-list icon text-info-lter"></i>
                   <span class="font-bold">List</span>
                 </a>
               </li>
@@ -106,9 +106,9 @@
             <li>
             </li>
               <li>
-                <a href="projects/<%= current_user.projects[0].id %>/milestones" class="auto">
-                  <i class="glyphicon glyphicon-stats icon text-info-lter"></i>      
-                  <span class="font-bold">Milestones</span>
+                <a href="/" class="auto">
+                  <i class="glyphicon  glyphicon-th-list icon text-info-lter"></i>      
+                  <span class="font-bold">Lists</span>
                 </a>
               </li>
             <% end %>

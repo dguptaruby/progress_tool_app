@@ -1,9 +1,10 @@
 class ProjectsController < ApplicationController
+  load_and_authorize_resource
   before_action :authenticate_user!
   before_action :set_project, only: [:update, :destroy, :show, :edit]
 
   def index
-    @projects = Project.all
+    @projects = Project.accessible_by(current_ability)
     respond_to do |format|
       format.json {
         render json: @projects, status: :ok

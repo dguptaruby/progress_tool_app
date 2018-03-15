@@ -1,4 +1,4 @@
 class Invitation < ApplicationRecord
-  belongs_to :project
-  belongs_to :user
+  belongs_to :project, inverse_of: :invitations
+  belongs_to :user, inverse_of: :invitations
 end

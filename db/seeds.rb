@@ -7,6 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Admin.create(first_name: "Victor", last_name: "Young", email: "victor@progressapp.com", password: "password123", password_confirmation: "password123")
 
-["Open", "In Progress", "Pending", "On Hold", "Completed", "Closed"].each do |status|
+["New", "Open", "In Progress", "Pending", "On Hold", "Completed", "Closed"].each do |status|
   Status.find_or_create_by(name: status)
 end

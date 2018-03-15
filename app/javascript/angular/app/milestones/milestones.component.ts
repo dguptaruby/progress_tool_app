@@ -294,12 +294,28 @@ export class MilestonesComponent implements OnInit {
   }
 
   onClick(event) {
+    /*debugger
     if(this.dynamicId == undefined){
-    } else if(!$(event.target).hasClass('submission_due_at')) {
+    } else if(!this._eref.nativeElement.contains(event.target)) {
       let self = this;
       setTimeout(function(){
-        self.dynamicId.close();    
+        self.dynamicId.close();
       },10);
-    }
+    } */
+    /*else if(!$(event.target).hasClass('submission_due_at') || !$(event.target).hasClass('custom-select')) {
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    }*/
+  }
+  closeDp() {
+    debugger
+    if(this.dynamicId != undefined){
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    } 
   }
 }

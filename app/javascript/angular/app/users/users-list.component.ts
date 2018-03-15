@@ -55,9 +55,12 @@ export class UsersListComponent implements OnInit {
         this.users = response;
         for(let i=0; i<=this.users.length-1; i++) {
           if(this.users[i].projects.length > 0){
+            this.users[i].project_list = "";
             for (let j=0; j <= this.users[i].projects.length-1; j++) {
-              if(this.users[i].projects[j]){
+              if(this.users[i].project_list == ""){
                 this.users[i].project_list = this.users[i].projects[j].project_name;
+              } else {
+                this.users[i].project_list = this.users[i].project_list+ " | "+ this.users[i].projects[j].project_name;
               }
             }
           }

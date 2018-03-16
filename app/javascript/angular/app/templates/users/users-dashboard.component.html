@@ -91,8 +91,8 @@
                                 <th>Name</th>
                                 <th>Status</th>
                                 <th>Description</th>
-                                <th>Submission due at</th>
-                                <th>Submitted at</th>
+                                <th>Due date</th>
+                                <th>Updated at</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
@@ -103,7 +103,7 @@
                                 <td>{{milestone.status_name}}</td>
                                 <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
                                 <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
-                                <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                                <td>{{milestone.updated_at | date: 'MMM d, y, h:mm a'}}</td>
                                 <td>
                                   
 

@@ -95,7 +95,7 @@
 
                     <td *ngIf="milestone.show_dropdown">
                       <form [formGroup]="milestoneForm">
-                        <select class="form-control m-b" (change)="saveDataWithFile(milestoneForm.value)" name="status_id" formControlName="status_id">
+                        <select class="form-control m-b" (focusout)="closeStatusDropdown(milestone)" (change)="saveDataWithFile(milestoneForm.value)" name="status_id" formControlName="status_id">
                           <option *ngFor="let status of status_list" value="{{status.id}}">{{status.name}}</option>
                         </select>
                       </form>

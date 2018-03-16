@@ -4,12 +4,17 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:update, :destroy, :show, :edit]
 
   def index
-    @projects = Project.accessible_by(current_ability)
-    respond_to do |format|
-      format.json {
-        render json: @projects, status: :ok
-      }
-      format.html
+    @projects = Project.accessible_by(current_ability).includes(:users, milestones: [:status])
+
+    if current_user.admin?
+      admin_projects(@projects)
+    else
+      respond_to do |format|
+        format.json {
+          render json: @projects, status: :ok
+        }
+        format.html
+      end
     end
   end
 
@@ -53,5 +58,18 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:id])
+  end
+
+  def admin_projects(projects)
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "projects/index.json.jbuilder", projects: projects
+    end.attributes!
+
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
   end
 end

@@ -7,9 +7,11 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs/Subject';
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Select2OptionData } from 'ng2-select2';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { UserService } from '../services/user.service';
 import { ListService } from '../services/list.service';
+import { StatusService } from '../services/status.service';
 
 @Component({
   selector: 'app-lists',
@@ -38,6 +40,8 @@ export class ListComponent implements OnInit {
   modalReference: any;
   invite_user_success_msg: string;
   inviteUserList: any = {};
+  milestoneForm: FormGroup;
+  status_list: any = [];
 
   inviteForm: FormGroup;
 
@@ -51,7 +55,7 @@ export class ListComponent implements OnInit {
     user_ids: []
   };
 
-  constructor(private userService: UserService, private listService: ListService, private fb: FormBuilder, private modalService: NgbModal,private cdr: ChangeDetectorRef) {
+  constructor(private userService: UserService, private listService: ListService, private fb: FormBuilder, private modalService: NgbModal,private cdr: ChangeDetectorRef, private statusService: StatusService, private http: Http) {
     
   }
 
@@ -59,6 +63,7 @@ export class ListComponent implements OnInit {
     this.getCurrentUsers();
     this.getLists();
     this.getUsers();
+    this.getStatus();
 
     this.listForm = this.fb.group({
       'id': [null],
@@ -71,6 +76,13 @@ export class ListComponent implements OnInit {
       multiple: true,
       placeholder: "Add users"
     }
+
+    this.milestoneForm = this.fb.group({
+      'id': [null],
+      'name': [null],
+      'status_id': [null],
+      'project': [null]
+    });
 
   }
 
@@ -238,7 +250,7 @@ export class ListComponent implements OnInit {
   open_invite_new_user_modal(list: any, content) {
     this.inviteForm = this.fb.group({
       'first_name': [null, Validators.required],
-      'last_name': [null],
+      'last_name': [null, Validators.required],
       'email': [null, Validators.required],
       'project_id': [null, Validators.required]
     });
@@ -289,4 +301,68 @@ export class ListComponent implements OnInit {
 
   }
 
+  show_status_options(milestone:any) {
+    console.log("click = ",milestone)
+    milestone.show_dropdown = true;
+    this.milestoneForm.setValue({
+      'id': milestone.id,
+      'name': milestone.name,
+      'status_id': milestone.status_id ,
+      'project': milestone.project_id 
+    });
+  }
+
+  getStatus() {
+    this.statusService.getStatus()
+    .subscribe(
+      response => {
+        this.status_list = response.data;
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    );
+  }
+
+  closeStatusDropdown(milestone) {
+    milestone.show_dropdown = false;
+  }
+
+  saveDataWithFile(data:any, milestone:any) {
+    let formData:FormData = new FormData();
+    formData.append('milestone[name]', data.name);
+    formData.append('milestone[status_id]', data.status_id);
+    formData.append('milestone[project_id]', data.project);
+    var token = window.document.getElementsByName('csrf-token')[0].getAttribute("content");
+        let headers = new Headers({ 'X-CSRF-Token': token });
+    headers.append('Accept', 'application/json');
+    let options = new RequestOptions({ headers: headers });
+    let http_call: any = null;
+    http_call = this.http.put('/projects/'+data.project+'/milestones/'+data.id+'.json', formData , options);
+
+    
+    http_call.map(res => res.json())
+    .catch(error => { 
+      this.show_error = error;
+      Observable.throw(error)
+    })
+    .subscribe(
+      data => {
+        this.milestoneForm.reset();
+        let formData:FormData = new FormData();
+        this.show_form = false;
+        var statusData = this.status_list.filter(function (element, index) {
+           return (element.id === data.status_id);
+        });
+        milestone.status_id = statusData[0].id;
+        milestone.status_name = statusData[0].name;
+        milestone.show_dropdown = false;
+      },
+      error => {
+        this.show_error = error;
+        return Observable.throw(error);
+      }
+    )
+  }
 }

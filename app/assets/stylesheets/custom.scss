@@ -70,3 +70,11 @@
 .ngb-dp-arrow[_ngcontent-c2] {
   flex-grow: 0.2 !important;
 }
+.ngx-datepicker-container[_ngcontent-c0] {
+  .ngx-datepicker-input[_ngcontent-c0] {
+    width: 100% !important;
+  }
+  .ngx-datepicker-calendar-container[_ngcontent-c0] {
+    z-index: 99;
+  }
+}

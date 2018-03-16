@@ -137,7 +137,7 @@ export class MilestonesComponent implements OnInit {
       'name': [null, Validators.required],
       'status_id': [null], 
       'description': [null],
-      'submission_due_at': [null], 
+      'submission_due_at': [null],
       'submitted_at': [null], 
       'attachments': [[]]
     });
@@ -166,7 +166,6 @@ export class MilestonesComponent implements OnInit {
   }
 
   saveDataWithFile(data: any) {
-
     let formData:FormData = new FormData();
     formData.append('milestone[name]', data.name);
     formData.append('milestone[description]', data.description);
@@ -294,28 +293,17 @@ export class MilestonesComponent implements OnInit {
   }
 
   onClick(event) {
-    /*debugger
     if(this.dynamicId == undefined){
-    } else if(!this._eref.nativeElement.contains(event.target)) {
-      let self = this;
-      setTimeout(function(){
-        self.dynamicId.close();
-      },10);
-    } */
-    /*else if(!$(event.target).hasClass('submission_due_at') || !$(event.target).hasClass('custom-select')) {
-      let self = this;
-      setTimeout(function(){
-        self.dynamicId.close();
-      },10);
-    }*/
-  }
-  closeDp() {
-    debugger
-    if(this.dynamicId != undefined){
-      let self = this;
-      setTimeout(function(){
-        self.dynamicId.close();
-      },10);
     } 
+    else if(($(event.target).closest(".submission_due_at").length === 0) && ($(event.target).closest(".dropdown_menu").length === 0) && ($(event.target).closest(".ngb-dp-header").length === 0) && ($(event.target).closest(".ngb-dp-months").length === 0)) {
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    }
+  }
+
+  closeStatusDropdown(milestone) {
+    milestone.show_dropdown = false;
   }
 }

@@ -193,13 +193,13 @@
                               <tr>
                                 <td colspan="5" class="hiddenRow no-padder">
                                   <div class="m-t m-l-md accordian-body collapse" id="user{{j}}{{i}}">
-                                    <div class="row m-n" *ngIf="user.milestone.length == 0">
+                                    <div class="row m-n" *ngIf="user.milestones.length == 0">
                                       <div class="col-xs-12">
                                         Add Milestone
                                       </div>
                                     </div>
-                                    <div class="b" *ngIf="user.milestone.length > 0">
-                                      <div class="row m-n" *ngIf="user.milestone.length > 0">
+                                    <div class="b" *ngIf="user.milestones.length > 0">
+                                      <div class="row m-n" *ngIf="user.milestones.length > 0">
                                         <div class="col-sm-6 col-xs-12">
                                           <h4 class="font-thin padder">Milestones</h4>
                                         </div>
@@ -209,25 +209,34 @@
                                           </div>
                                         </div>
                                       </div> 
-                                      <table  *ngIf="user.milestone.length > 0" class="table table-condensed table-bordered b-t b-light">
+                                      <table  *ngIf="user.milestones.length > 0" class="table table-condensed table-bordered b-t b-light">
                                         <thead>
                                           <tr class="info">
                                             <th>Name</th>
                                             <th>Status</th>
                                             <th>Description</th>
-                                            <th>Submission due at</th>
-                                            <th>Submitted at</th>
+                                            <th>Dua date</th>
+                                            <th>Updated at</th>
                                             <th>Action</th>
                                           </tr>
                                         </thead>
                                         <tbody>
 
-                                          <tr *ngFor="let milestone of user.milestone | filterBy: ['name','status_name','description','submission_due_at','submitted_at']: searchInMilestones | paginate: { id: 'milestonePagination', itemsPerPage: itemsPerPage, currentPage: pageMilestone }; let i = index;">
+                                          <tr *ngFor="let milestone of user.milestones | filterBy: ['name','status_name','description','submission_due_at','submitted_at']: searchInMilestones | paginate: { id: 'milestonePagination', itemsPerPage: itemsPerPage, currentPage: pageMilestone }; let i = index;">
                                             <td>{{milestone.name}}</td>
-                                            <td>{{milestone.status_name}}</td>
+                                            <td (click)="show_status_options(milestone)" *ngIf="!milestone.show_dropdown">{{milestone.status_name}}</td>
+
+                                            <td *ngIf="milestone.show_dropdown">
+                                              <form [formGroup]="milestoneForm">
+                                                <select class="form-control m-b" (focusout)="closeStatusDropdown(milestone)" (change)="saveDataWithFile(milestoneForm.value,milestone)" name="status_id" formControlName="status_id">
+                                                  <option *ngFor="let status of status_list" value="{{status.id}}">{{status.name}}</option>
+                                                </select>
+                                              </form>
+                                            </td>
+
                                             <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
                                             <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
-                                            <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                                            <td>{{milestone.updated_at | date: 'MMM d, y, h:mm a'}}</td>
                                             <td>
                                               
 
@@ -238,7 +247,7 @@
                                         </tbody>
                                       </table>
                                       
-                                      <pagination-controls *ngIf="user.milestone.length > itemsPerPage" class="pull-right" id="milestonePagination" (pageChange)="pageMilestone = $event"></pagination-controls>
+                                      <pagination-controls *ngIf="user.milestones.length > itemsPerPage" class="pull-right" id="milestonePagination" (pageChange)="pageMilestone = $event"></pagination-controls>
                                       <div class="clearfix"></div>
                                     </div>
                                     

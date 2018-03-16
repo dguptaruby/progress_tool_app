@@ -10,6 +10,8 @@ class Milestone < ApplicationRecord
   def milestone_detail
     { id: id,
       name: name,
+      project_id: project_id,
+      status_id: status_id,
       status_name: status.name,
       description: description,
       submission_due_at: submission_due_at,

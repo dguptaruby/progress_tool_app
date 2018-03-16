@@ -1,14 +1,3 @@
 <!-- content -->
-<div id="content" class="app-content" role="main">
-  <div class="app-content-body ">
-    <div class="bg-light lter b-b wrapper-md">
-      <h1 class="m-n font-thin h3">Dashboard</h1>
-    </div>
-
-  <div class="wrapper-md">
-    <div class="row">
-    </div>
-  </div>
-
-  </div>
-</div>
+<app-lists *ngIf="role==='Admin'"></app-lists>
+<users-dashboard *ngIf="role==='User'"></users-dashboard>

@@ -20,6 +20,7 @@ import { ActionItemsFormComponent } from './action_items/actionitemsform.compone
 import { UsersListComponent } from './users/users-list.component';
 import { NoteFormComponent } from './notes/notes-form.component';
 import { ListComponent } from './lists/lists.component';
+import { UsersDashboardComponent } from './users/users-dashboard.component';
 
 import { UserService }   from './services/user.service';
 import { StatusService }   from './services/status.service';
@@ -31,7 +32,7 @@ import { ListService }   from './services/list.service';
 import { Globals } from './globals';
 
 const routes: Routes = [
-  { path: '', component: ListComponent },
+  { path: '', component: DashboardComponent },
   { path: 'projects', component: ListComponent },
   { path: 'projects/:id/milestones', component: MilestonesComponent },
   { path: 'projects/:id/milestones/:milestone_id', component: MilestonesViewComponent },
@@ -56,7 +57,8 @@ const routes: Routes = [
     UsersListComponent,
     NoteFormComponent,
     TimeAgoPipe,
-    ListComponent
+    ListComponent,
+    UsersDashboardComponent
   ],
   imports: [
     BrowserModule,

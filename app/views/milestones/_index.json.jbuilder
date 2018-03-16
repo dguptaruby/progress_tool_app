@@ -8,6 +8,7 @@ json.array! @milestones do |milestone|
   json.project_name milestone.project.name
   json.status milestone.status.id
   json.status_name milestone.status.name
+  json.updated_at milestone.updated_at
 
   json.attachemnts milestone.attachments do |attachment|
     json.name attachment.filename

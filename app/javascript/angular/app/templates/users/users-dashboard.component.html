@@ -1,0 +1,142 @@
+<!-- content -->
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body">
+
+    <div class="wrapper-md">
+      <div class="row">
+
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">Lists 
+          </div>
+          <div class="panel-body">
+
+            <div class="alert alert-danger" *ngIf="show_error">
+              <a href="#" data-dismiss="alert" class="close">×</a>
+              {{show_error}}
+            </div>
+
+            <div class="table-responsive">
+            <!-- PROJECTS TABLE -->
+              <div class="pull-right m-b">
+                <input type="text" [(ngModel)]="searchInProjects" class="form-control" placeholder="Search in lists">
+              </div>
+              <div class="clearfix"></div>
+              <table class="table table-striped b-t b-light custom-table">
+                <thead>
+                  <tr class="info">
+                    <th>#</th>
+                    <th>Name</th>
+                    <th class="text-center">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <ng-template ngFor let-list [ngForOf]="lists | filterBy: ['name','description']: searchInProjects | paginate: { id: 'projectPagination', itemsPerPage: itemsPerPage, currentPage: pageProject } " let-i="index">
+                  <tr>
+                    <td>
+                      <a 
+                        data-toggle="collapse" 
+                        (click)="list.isCollepsed =! list.isCollepsed;" 
+                        [attr.data-target]="'#project'+ i"
+                       *ngIf="!list.isCollepsed"
+                        class="btn btn-sm btn-icon btn-success"><i class="fa fa-plus"></i></a>
+
+                      <a
+                      data-toggle="collapse" 
+                      (click)="list.isCollepsed =! list.isCollepsed;" 
+                      [attr.data-target]="'#project'+ i" 
+                      *ngIf="list.isCollepsed" class="btn btn-sm btn-icon btn-danger"><i class="fa fa-minus"></i></a>
+                    </td>
+
+                    <td 
+                      data-toggle="collapse" 
+                      (click)="list.isCollepsed =! list.isCollepsed;" 
+                      [attr.data-target]="'#project'+ i">
+                        {{list.name}}
+                    </td>
+                    
+                    <td 
+                      data-toggle="collapse" 
+                      (click)="list.isCollepsed =! list.isCollepsed;" 
+                      [attr.data-target]="'#project'+ i"
+                      class="text-center">
+                        {{list.description}}
+                    </td>
+
+                  </tr>
+
+                  <!-- MILESTONE TABLE -->
+                  <tr>
+                    <td colspan="5" class="hiddenRow no-padder">
+                      <div class="m-t m-l-md accordian-body collapse" id="project{{i}}">
+                        <div class="row m-n" *ngIf="list.milestones.length == 0">
+                          <div class="col-xs-12">
+                            No Milestone Added yet
+                          </div>
+                        </div>
+                        <div class="b" *ngIf="list.milestones.length > 0">
+                          <div class="row m-n" *ngIf="list.milestones.length > 0">
+                            <div class="col-sm-6 col-xs-12">
+                              <h4 class="font-thin padder">Milestones</h4>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                              <div class="pull-right m-t m-b">
+                                <input type="text" [(ngModel)]="searchInMilestones" class="form-control" placeholder="Search in milestones">
+                              </div>
+                            </div>
+                          </div> 
+                          <table  *ngIf="list.milestones.length > 0" class="table table-condensed table-bordered b-t b-light">
+                            <thead>
+                              <tr class="info">
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Description</th>
+                                <th>Submission due at</th>
+                                <th>Submitted at</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+
+                              <tr *ngFor="let milestone of list.milestones | filterBy: ['name','status_name','description','submission_due_at','submitted_at']: searchInMilestones | paginate: { id: 'milestonePagination', itemsPerPage: itemsPerPage, currentPage: pageMilestone }; let i = index;">
+                                <td>{{milestone.name}}</td>
+                                <td>{{milestone.status_name}}</td>
+                                <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
+                                <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
+                                <td>{{milestone.submitted_at | date: 'MM/dd/yyyy'}}</td>
+                                <td>
+                                  
+
+                                <a href="/projects/{{list.id}}/milestones/{{milestone.id}}" class="m-b-none btn m-b-xs btn-sm btn-primary btn-addon">Notes</a>
+
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          <pagination-controls *ngIf="list.milestones.length > itemsPerPage" class="pull-right" id="milestonePagination" (pageChange)="pageMilestone = $event"></pagination-controls>
+                          <div class="clearfix"></div>
+                        </div>
+                        
+                      </div>
+                    </td>
+                  </tr>
+
+                  </ng-template>
+                  <tr *ngIf="lists.length == 0">
+                    <td colspan="3">No List Added</td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <pagination-controls *ngIf="lists.length > itemsPerPage" id="projectPagination" (pageChange)="pageProject = $event"></pagination-controls>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

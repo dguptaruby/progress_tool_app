@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import templateString from '../templates/milestones.component.html';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,10 @@ import { Globals } from '../globals';
 @Component({
   selector: 'app-milestones',
   template: templateString,
-  providers: [ Globals, {provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
+  providers: [ Globals, {provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}],
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
 })
 export class MilestonesComponent implements OnInit {
   @ViewChild(DataTableDirective)
@@ -43,8 +46,10 @@ export class MilestonesComponent implements OnInit {
   attachments:string [] = [];
   project: any = {};
   bash_path: string = null;
+  milestoneAction: string = null;
+  dynamicId;
 
-  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private statusService: StatusService, private parserFormatter: NgbDateParserFormatter, private http: Http, private listService: ListService, private globals: Globals) {
+  constructor(private milestonesService: MilestonesService, private userService: UserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder, private statusService: StatusService, private parserFormatter: NgbDateParserFormatter, private http: Http, private listService: ListService, private globals: Globals, private _eref: ElementRef) {
     this.project_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
@@ -56,7 +61,7 @@ export class MilestonesComponent implements OnInit {
     this.milestoneForm = this.fb.group({
       'id': [null],
       'name': [null, Validators.required],
-      'status_id': [null, Validators.required], 
+      'status_id': [null], 
       'description': [null],
       'submission_due_at': [null], 
       'submitted_at': [null], 
@@ -130,7 +135,7 @@ export class MilestonesComponent implements OnInit {
     this.milestoneForm = this.fb.group({
       'id': [null],
       'name': [null, Validators.required],
-      'status_id': [null, Validators.required], 
+      'status_id': [null], 
       'description': [null],
       'submission_due_at': [null], 
       'submitted_at': [null], 
@@ -250,5 +255,67 @@ export class MilestonesComponent implements OnInit {
       dtInstance.destroy();
       this.dtTrigger.next();
     });
+  }
+
+  show_status_options(milestone:any) {
+    milestone.show_dropdown = true;
+    this.milestoneForm.setValue({
+      'id': milestone.id,
+      'name': milestone.name,
+      'status_id': milestone.status, 
+      'description': milestone.description,
+      'submission_due_at': this.parserFormatter.parse(milestone.submission_due_at), 
+      'submitted_at': this.parserFormatter.parse(milestone.submitted_at), 
+      'attachments': [[]]
+    });
+  }
+
+  onMilestoneActionChange(action, milestone, i) {
+
+      switch(action) {
+        case "notes":
+          window.location.href = "/projects/"+ milestone.project+"/milestones/"+milestone.id;
+        break;
+
+        case "delete":
+          this.delete(milestone, i);
+        break;
+
+        case "update":
+          this.update(milestone);
+        break;
+      }
+
+      action = null;
+  }
+  
+  openDatepicker(id){
+    this.dynamicId = id;
+  }
+
+  onClick(event) {
+    /*debugger
+    if(this.dynamicId == undefined){
+    } else if(!this._eref.nativeElement.contains(event.target)) {
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    } */
+    /*else if(!$(event.target).hasClass('submission_due_at') || !$(event.target).hasClass('custom-select')) {
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    }*/
+  }
+  closeDp() {
+    debugger
+    if(this.dynamicId != undefined){
+      let self = this;
+      setTimeout(function(){
+        self.dynamicId.close();
+      },10);
+    } 
   }
 }

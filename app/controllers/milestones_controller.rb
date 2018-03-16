@@ -43,6 +43,8 @@ class MilestonesController < ApplicationController
   end
 
   def create
+    status_id = Status.find_by(name: "New").id
+    params[:milestone].merge!({status_id: status_id})
     @milestone = Milestone.new(milestone_params)
     if @milestone.save
       render json: @milestone, status: :created

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     post '/invitation/invite_users_to_list' => 'invitations#invite_users_to_list'
+    resources :notifications
   end
   
   root 'dashboard#index'
@@ -24,4 +25,5 @@ Rails.application.routes.draw do
   end
   
   resources :status, only: :index
+  mount ActionCable.server, at: '/cable'
 end

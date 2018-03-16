@@ -11,7 +11,9 @@ class InvitationsController < Devise::InvitationsController
     respond_to do |format|
       format.json {
         if resource_invited
-          create_invitation(resource, params[:user][:project_id])
+          project = Project.find(params[:user][:project_id])
+          invitation_created = create_invitation(resource, project.id)
+          Notification.create(recipient: project.admin, actor: current_user, action: "invited", notifiable: invitation_created)
           if is_flashing_format? && self.resource.invitation_sent_at
             set_flash_message :notice, :send_instructions, :email => self.resource.email
           end

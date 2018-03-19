@@ -1,0 +1,26 @@
+<a (click)="mark_as_read();" href="#" data-toggle="dropdown" class="dropdown-toggle">
+  <i class="fa fa-bell-o"></i>
+  <span class="visible-xs-inline">Notifications</span>
+  <span class="badge badge-sm up bg-danger pull-right-xs" *ngIf="notification_count > 0">{{notification_count}}</span>
+</a>
+<!-- dropdown -->
+<div class="dropdown-menu w-xl animated fadeInUp">
+  <div class="panel bg-white">
+    <div class="panel-heading b-light bg-light">
+      <strong>You have <span>{{notifications.length}}</span> notifications</strong>
+    </div>
+    <div class="list-group custom-notification-box">
+      <a *ngFor="let notification of notifications" href="{{notification.url}}" class="list-group-item">
+        <span class="clear block m-b-none">
+          {{notification.text}}<br>
+          <small class="text-muted">{{notification.created_at | timeAgo}}</small>
+        </span>
+      </a>
+    </div>
+    <div class="panel-footer text-sm">
+      <a href="" class="pull-right">Mark all as read</a>
+      <a href="#">See all the notifications</a>
+    </div>
+  </div>
+</div>
+<!-- / dropdown -->

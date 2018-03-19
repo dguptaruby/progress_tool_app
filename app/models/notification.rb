@@ -6,5 +6,5 @@ class Notification < ApplicationRecord
   scope :unread, ->{ where(read_at: nil) }
   scope :recent, ->{ order(created_at: :desc).limit(10) }
 
-  after_commit -> { NotificationRelayJob.perform_later(self, Invitation.find(notifiable_id)) }
+  after_commit -> { NotificationRelayJob.perform_later(self) }
 end

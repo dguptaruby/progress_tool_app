@@ -1,8 +1,8 @@
 class NotificationRelayJob < ApplicationJob
   queue_as :default
 
-  def perform(notification, invitation)
-    html = ApplicationController.render partial: "notifications/#{notification.action}", locals: {notification: notification, invitation: invitation}, formats: [:html]
-    ActionCable.server.broadcast "notifications:#{notification.recipient_id}", html: html
+  def perform(notification)
+    json_string = ApplicationController.render partial: "notifications/#{notification.action}", locals: {notification: notification}, formats: [:jbuilder, :json]
+    ActionCable.server.broadcast "notifications:#{notification.recipient_id}", notification: JSON.parse(json_string)
   end
 end

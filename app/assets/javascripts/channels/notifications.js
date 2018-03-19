@@ -7,7 +7,6 @@ App.notifications = App.cable.subscriptions.create("NotificationsChannel", {
     // Called when the subscription has been terminated by the server
   },
 
-  received: function(data) {
-    $("#notifications").prepend(data.html);
+  received: function() {
   }
 });

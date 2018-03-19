@@ -9,6 +9,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgPipesModule } from 'ngx-pipes';
 import { Select2Module } from 'ng2-select2';
+import { Ng2CableModule } from 'ng2-cable';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
@@ -21,6 +22,7 @@ import { UsersListComponent } from './users/users-list.component';
 import { NoteFormComponent } from './notes/notes-form.component';
 import { ListComponent } from './lists/lists.component';
 import { UsersDashboardComponent } from './users/users-dashboard.component';
+import { NotificationComponent } from './notification/notification.component';
 
 import { UserService }   from './services/user.service';
 import { StatusService }   from './services/status.service';
@@ -28,6 +30,7 @@ import { MilestonesService }   from './services/milestones.service';
 import { ActionItemsService }   from './services/actionitems.service';
 import { NotesService }   from './services/notes.service';
 import { ListService }   from './services/list.service';
+import { NotificationService }   from './services/notification.service';
 
 import { Globals } from './globals';
 
@@ -58,7 +61,8 @@ const routes: Routes = [
     NoteFormComponent,
     TimeAgoPipe,
     ListComponent,
-    UsersDashboardComponent
+    UsersDashboardComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -70,9 +74,10 @@ const routes: Routes = [
     DataTablesModule,
     NgxPaginationModule,
     NgPipesModule,
-    Select2Module
+    Select2Module,
+    Ng2CableModule
   ],
-  providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService, Globals ],
-  bootstrap: [ AppComponent ]
+  providers: [ UserService, StatusService, MilestonesService, ActionItemsService, NotesService, ListService, Globals, NotificationService ],
+  bootstrap: [ AppComponent,NotificationComponent ]
 })
 export class AppModule { }

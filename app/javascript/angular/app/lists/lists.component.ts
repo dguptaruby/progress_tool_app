@@ -252,7 +252,7 @@ export class ListComponent implements OnInit {
       'first_name': [null, Validators.required],
       'last_name': [null, Validators.required],
       'email': [null, Validators.required],
-      'project_id': [null, Validators.required]
+      'project_id': list.id
     });
     this.inviteUserList = list;
     this.invite_user_success_msg = null;

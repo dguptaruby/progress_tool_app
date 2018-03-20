@@ -44,7 +44,7 @@
   </div>
   <div class="form-group">
     <label>Attachments</label>
-    <input type="file" name="file"  class="form-control" name="attachments" formControlName="attachments" multiple (change)="getFileDetails($event)">
+    <input type="file" name="file"  class="form-control my-form-control" name="attachments" formControlName="attachments" multiple (change)="getFileDetails($event)">
   </div>
   <div class="form-group">
     <button type="submit" class="btn btn-success" [disabled]="!noteForm.valid">Submit note</button>

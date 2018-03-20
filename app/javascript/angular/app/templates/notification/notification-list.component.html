@@ -1,0 +1,39 @@
+<!-- <h1>all </h1> -->
+<!-- <pre>
+  {{notifications | json}}
+</pre> -->
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body ">
+    <div class="wrapper-md">
+      <div class="row">
+        
+        <div class="panel panel-default">
+          
+          <div class="panel-heading font-bold">All Notifications</div>       
+          
+          <div class="panel-body">
+            <div class="panel b-a">
+              <ul class="list-group">
+                <a *ngFor="let notification of notifications" class="list-group-item">
+                    <a href="{{notification.url}}">
+                      <p>{{notification.text}}</p>
+                      <small class="block text-muted"><i class="fa fa-fw fa-clock-o"></i>
+                      {{notification.created_at | timeAgo}}
+                      </small>
+                    </a>
+                </a>
+                
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>  
+
+  </div>
+
+
+
+
+

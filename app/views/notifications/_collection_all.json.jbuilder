@@ -1,4 +1,4 @@
-json.array! @unread_notifications do |notification|
+json.array! @notifications do |notification|
   json.id notification.id
   json.action notification.action
   json.actor_id notification.actor_id

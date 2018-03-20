@@ -19,7 +19,16 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    render json: @project, status: :ok
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "projects/show.json.jbuilder", project: @project
+    end.attributes!
+
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
   end
 
   def new

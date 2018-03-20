@@ -22,4 +22,19 @@ class UsersController < ApplicationController
     }.to_json
   end
 
+  def show
+    @project = Project.find(params[:project_id])
+    @user = User.find(params[:id])
+    
+    data_hash = JbuilderTemplate.new(view_context) do |json|
+      json.partial! "users/show.json.jbuilder", locale: { project: @project, user: @user }
+    end.attributes!
+    
+    respond_to do |format|
+      format.json {
+        render json: data_hash.to_json
+      }
+      format.html
+    end
+  end
 end

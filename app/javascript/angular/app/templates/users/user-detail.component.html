@@ -1,0 +1,61 @@
+<!-- content -->
+  <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+
+    <div class="wrapper-md">
+      <div class="row">
+
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">List Detail</div>       
+          <div class="panel-body">
+            <p class="m-t-none">Name: {{user.name}}</p>
+            <p class="m-t-none" *ngIf="user.description">Description: {{user.description}}</p>
+          </div>
+        </div>
+
+        <div class="panel panel-default" *ngIf="current_user_type == 'Admin'">
+          <div class="panel-heading font-bold">User Detail</div>       
+          <div class="panel-body">
+            <p class="m-t-none">First Name: {{user.first_name}}</p>
+            <p class="m-t-none">Last Name: {{user.last_name}}</p>
+            <p class="m-t-none">Email: {{user.email}}</p>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading font-bold">List's Milestones</div>       
+          <div class="panel-body">
+            <div class="table-responsive" *ngIf="user.milestones">
+              <table class="table table-striped b-t b-light custom-table" *ngIf="user.milestones.length > 0">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Due date</th>
+                    <th>Updated at</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngFor="let milestone of user.milestones; let i = index;">
+                    <td>{{milestone.name}}</td>
+                    <td>{{milestone.status_name}}</td>
+                    <td>{{milestone.description == 'null' ? '' : milestone.description}}</td>
+                    <td>{{milestone.submission_due_at | date: 'MM/dd/yyyy'}}</td>
+                    <td>{{milestone.updated_at | date: 'MMM d, y, h:mm a'}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+              <p *ngIf="user.milestones.length == 0">No Milestone added</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+  </div>
+   

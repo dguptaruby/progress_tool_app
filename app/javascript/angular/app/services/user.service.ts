@@ -33,4 +33,8 @@ constructor(private http:Http) { }
     }
     return stringDate;
   }
+
+  getUserDetails(user_id, project_id) {
+    return this.http.get('/users/'+user_id+'.json?project_id='+project_id).map((res: Response) => res.json()); 
+  }
 }

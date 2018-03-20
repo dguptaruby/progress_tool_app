@@ -1,4 +1,4 @@
-json.extract! notification, :actor_id, :recipient_id, :read_at, :action, :notifiable_id,
+json.extract! notification, :actor_id, :recipient_id, :action, :notifiable_id,
   :notifiable_type, :created_at
 
 json.actor_name notification.actor.full_name

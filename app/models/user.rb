@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  acts_as_reader
+  
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 

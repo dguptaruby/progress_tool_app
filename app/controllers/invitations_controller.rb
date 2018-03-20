@@ -27,10 +27,13 @@ class InvitationsController < Devise::InvitationsController
 
   def invite_users_to_list
     project = Project.find(params[:list_id])
+    
     params[:user_ids].each do |id|
       next if project.users.map(&:id).include?(id)
-      project.invitations.create(user_id: id, project_id: project.id)
+      invitation_created = project.invitations.create(user_id: id, project_id: project.id)
+      Notification.create(recipient: project.admin, actor: current_user, action: "invited", notifiable: invitation_created)
     end
+
     respond_to do |format|
       format.json {
         render json: { notice: "Successffully invited user" }, status: :ok

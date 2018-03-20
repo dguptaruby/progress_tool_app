@@ -257,6 +257,8 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.1.6)
       execjs (>= 0.3.0, < 3)
+    unread (0.10.1)
+      activerecord (>= 3)
     warden (1.2.7)
       rack (>= 1.0)
     webpacker (3.2.2)
@@ -305,6 +307,7 @@ DEPENDENCIES
   turbolinks
   tzinfo-data
   uglifier
+  unread
   webpacker (~> 3.2)
 
 RUBY VERSION

@@ -302,7 +302,6 @@ export class ListComponent implements OnInit {
   }
 
   show_status_options(milestone:any) {
-    console.log("click = ",milestone)
     milestone.show_dropdown = true;
     this.milestoneForm.setValue({
       'id': milestone.id,

@@ -7,6 +7,6 @@ import { AppModule } from './app/app.module';
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  enableProdMode();
+  // enableProdMode();
   platformBrowserDynamic().bootstrapModule(AppModule);
 });

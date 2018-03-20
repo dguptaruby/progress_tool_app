@@ -23,6 +23,8 @@ import { NoteFormComponent } from './notes/notes-form.component';
 import { ListComponent } from './lists/lists.component';
 import { UsersDashboardComponent } from './users/users-dashboard.component';
 import { NotificationComponent } from './notification/notification.component';
+import { NotificationListComponent } from './notification/notification-list.component';
+import { UsersDetailComponent } from './users/user-detail.component';
 
 import { UserService }   from './services/user.service';
 import { StatusService }   from './services/status.service';
@@ -41,11 +43,13 @@ const routes: Routes = [
   { path: 'projects/:id/milestones/:milestone_id', component: MilestonesViewComponent },
   {
     path: 'users',
-    component: ActionItemsComponent,
+    component: UsersListComponent,
     children: [
-      { path: '', component: UsersListComponent },  
+      { path: '', component: UsersListComponent }
     ]
-  }
+  },
+  { path: 'users/:id?p_id=:project_id', component: UsersDetailComponent },
+  { path: 'notifications', component: NotificationListComponent },
 ];
 
 @NgModule({
@@ -62,7 +66,9 @@ const routes: Routes = [
     TimeAgoPipe,
     ListComponent,
     UsersDashboardComponent,
-    NotificationComponent
+    NotificationComponent,
+    NotificationListComponent,
+    UsersDetailComponent
   ],
   imports: [
     BrowserModule,

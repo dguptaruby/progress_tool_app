@@ -19,6 +19,7 @@ export class NotificationComponent implements OnInit {
   notifications: any = [];
   notification_count: number = 0;
   bash_path: string = null;
+  channel_path: string = null;
   current_user: any;
   current_user_type: string = null;
 
@@ -28,12 +29,13 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.getCurrentUser();
     this.bash_path = this.globals.getbashPath();
+    this.channel_path = this.globals.getChannelPath();
     this.getNotification();
     this.cableSubscribe();
   }
 
   cableSubscribe() {
-    this.ng2cable.subscribe(this.bash_path+'/cable', 'NotificationsChannel', { id: 1 });
+    this.ng2cable.subscribe(this.channel_path + '/cable', 'NotificationsChannel', { id: 1 });
 
     this.broadcaster.on<any>('NotificationsChannel').subscribe(
       message => {

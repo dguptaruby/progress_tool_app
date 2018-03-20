@@ -12,4 +12,9 @@ export class Globals {
     }
     return bash_path;
   }
+
+  getChannelPath() {
+    let channel_path;
+    return channel_path = "http://localhost:3000";
+  }
 }

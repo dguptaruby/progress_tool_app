@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { 
     registrations: 'devise/registrations',
@@ -31,4 +33,5 @@ Rails.application.routes.draw do
   
   resources :status, only: :index
   mount ActionCable.server, at: '/cable'
+  mount Sidekiq::Web, at: "/sidekiq"
 end

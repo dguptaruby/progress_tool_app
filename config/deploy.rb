@@ -95,6 +95,7 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       invoke 'puma:restart'
+      execute :sudo, :systemctl, :restart, :sidekiq
     end
   end
 

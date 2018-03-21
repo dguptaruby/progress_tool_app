@@ -1,2 +1,2 @@
 <h3>Hello Victor,</h3>
-<p><%= @actor_full_name %> invited <%= @invited_user_full_name %> to <%= @project_name %>.</p>
+<p><%= link_to @actor_full_name, details_user_url(@actor_id), target: "_blank" %> invited <%= link_to @invited_user_full_name, details_user_url(@invited_user_id), target: "_blank" %> to <%= link_to @project_name, project_url(@project_id, format: :json), target: "_blank" %>.</p>

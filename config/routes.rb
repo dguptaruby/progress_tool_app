@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     collection do
       get :get_current_user
     end
+    
+    member do
+      get :details
+    end
   end
 
   resources :projects do

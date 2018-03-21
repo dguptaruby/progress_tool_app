@@ -51,6 +51,6 @@ class InvitationsController < Devise::InvitationsController
 
   def notify_admin(project, invitation)
     AdminMailer.delay_for(3.seconds, queue: "mailers").notify_admin_about_invitation(invitation.user.full_name,
-      invitation.user.email, current_user.full_name, current_user.email, project.name)
+      invitation.user.email, current_user.full_name, current_user.email, project.name, current_user.id, invitation.user.id, project.id)
   end
 end

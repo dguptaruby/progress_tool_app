@@ -37,4 +37,9 @@ class UsersController < ApplicationController
       format.html
     end
   end
+
+  def details
+    @user = User.find(params[:id])
+    render json: @user, status: :ok 
+  end
 end

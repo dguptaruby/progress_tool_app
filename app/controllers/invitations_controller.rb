@@ -14,6 +14,7 @@ class InvitationsController < Devise::InvitationsController
           project = Project.find(params[:user][:project_id])
           invitation_created = create_invitation(resource, project.id)
           Notification.create(recipient: project.admin, actor: current_user, action: "invited", notifiable: invitation_created)
+          notify_admin(project, invitation_created)
           if is_flashing_format? && self.resource.invitation_sent_at
             set_flash_message :notice, :send_instructions, :email => self.resource.email
           end
@@ -31,7 +32,8 @@ class InvitationsController < Devise::InvitationsController
     params[:user_ids].each do |id|
       next if project.users.map(&:id).include?(id)
       invitation_created = project.invitations.create(user_id: id, project_id: project.id)
-      Notification.create(recipient: project.admin, actor: current_user, action: "invited", notifiable: invitation_created)
+      notification = Notification.create(recipient: project.admin, actor: current_user, action: "invited", notifiable: invitation_created)
+      notify_admin(project, invitation_created)
     end
 
     respond_to do |format|
@@ -45,5 +47,10 @@ class InvitationsController < Devise::InvitationsController
 
   def create_invitation(resource, project_id)
     resource.invitations.create(user_id: resource.id, project_id: project_id)
+  end
+
+  def notify_admin(project, invitation)
+    AdminMailer.delay_for(3.seconds, queue: "mailers").notify_admin_about_invitation(invitation.user.full_name,
+      invitation.user.email, current_user.full_name, current_user.email, project.name)
   end
 end

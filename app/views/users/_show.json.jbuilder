@@ -1,7 +1,7 @@
 json.extract! @project, :id, :name, :description, :created_at
 
 milestone_ids = @user.notes.map(&:milestone_id).uniq
-user_milestones = Milestone.where(id: milestone_ids)
+user_milestones = Milestone.where(id: milestone_ids, project_id: @project.id)
 json.first_name @user.first_name
 json.last_name @user.last_name
 json.email @user.email

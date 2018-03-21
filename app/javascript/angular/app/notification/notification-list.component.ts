@@ -50,7 +50,11 @@ export class NotificationListComponent implements OnInit {
   }
 
   prepare_notification(data: any) {
-    this.notifications = this.notificationService.prepare_notification(data,this.current_user_type);
+    for (let i = 0; i <= data.length - 1; i++) {
+      let obj = data[i];
+      let prepared_obj = this.notificationService.prepare_notification(obj,this.current_user_type);
+      this.notifications.unshift(prepared_obj);
+    }
   }
 
 }
